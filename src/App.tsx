@@ -130,7 +130,21 @@ const IconArrow = () => (
 );
 
 // ─── App ──────────────────────────────────────────────────────────────────────
-export default function App() {
+export default function App()
+  const saveOrder = async () => {
+  try {
+    await addDoc(collection(db, "orders"), {
+      customerName: "Manav",
+      product: "Hero Tee",
+      paymentStatus: "pending",
+      createdAt: new Date(),
+    });
+
+    alert("Order saved successfully!");
+  } catch (error) {
+    console.error("Firebase Error:", error);
+  }
+};
   const [page, setPage] = useState<"home" | "checkout">("home");
   const [cartOpen, setCartOpen] = useState(false);
   const [cart, setCart] = useState<CartItem[]>([]);
