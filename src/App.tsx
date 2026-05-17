@@ -1,3 +1,4 @@
+import { uploadProducts } from "./uploadProducts";
 import AdminPanel from "./AdminPanel";
 import { useState, useEffect, useRef } from "react";
 import CheckoutPage from "./CheckoutPage";
