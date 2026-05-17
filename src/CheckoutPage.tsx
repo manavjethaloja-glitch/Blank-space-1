@@ -271,8 +271,8 @@ export default function CheckoutPage({
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-4 bg-[#F8F6F2]">
         <p className="font-playfair text-2xl text-[#1a1a1a]">Your bag is empty.</p>
-        <button onClick={onBack} className="text-sm text-[#6b6864] underline underline-offset-4 hover:text-[#1a1a1a] transition-colors">
-          Go back to shop
+        <button onClick={saveOrder} className="text-sm text-[#6b6864] underline underline-offset-4 hover:text-[#1a1a1a] transition-colors">
+         confirm order
         </button>
       </div>
     );
