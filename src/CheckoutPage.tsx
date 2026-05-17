@@ -313,6 +313,7 @@ export default function CheckoutPage({
       state: form.state,
       pincode: form.pincode,
       total: total,
+   paymentScreenshot: screenshotUrl,
       createdAt: new Date(),
     });
 
