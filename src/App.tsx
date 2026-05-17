@@ -143,6 +143,12 @@ export default function App() {
   const [scrolled, setScrolled] = useState(false);
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+  
+  useEffect(() => {
+  if (window.location.hash === "#adminsecret123") {
+    setPage("admin");
+  }
+}, []);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -284,13 +290,6 @@ export default function App() {
 
           {/* Right actions */}
           <div className="flex items-center gap-4">
-
-  <button
-    onClick={() => setPage("admin")}
-    className="text-sm border border-[#d8d5d0] px-4 py-2 rounded-full hover:bg-[#1a1a1a] hover:text-white transition"
-  >
-    Admin
-  </button>
 
   <button onClick={() => setCartOpen(true)} className="relative hover:opacity-60 transition-opacity">
     <IconCart />
