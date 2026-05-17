@@ -133,20 +133,6 @@ const IconArrow = () => (
 
 // ─── App ──────────────────────────────────────────────────────────────────────
 export default function App() {
-  const saveOrder = async () => {
-  try {
-    await addDoc(collection(db, "orders"), {
-      customerName: "Manav",
-      product: "Hero Tee",
-      paymentStatus: "pending",
-      createdAt: new Date(),
-    });
-
-    alert("Order saved successfully!");
-  } catch (error) {
-    console.error("Firebase Error:", error);
-  }
-};
   const [page, setPage] = useState<"home" | "checkout" | "admin">("home");
   const [cartOpen, setCartOpen] = useState(false);
   const [cart, setCart] = useState<CartItem[]>([]);
@@ -298,13 +284,6 @@ export default function App() {
 
           {/* Right actions */}
           <div className="flex items-center gap-4">
-
-  <button
-    onClick={saveOrder}
-    className="text-sm border border-green-500 px-4 py-2 rounded-full text-green-600"
-  >
-    Test Firebase
-  </button>
 
   <button
     onClick={() => setPage("admin")}
