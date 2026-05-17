@@ -306,7 +306,6 @@ if (screenshot) {
 }
 
   await addDoc(collection(db, "orders"), {
-    await addDoc(collection(db, "orders"), {
       customerName: form.fullName,
       phone: form.phone,
       email: form.email,
