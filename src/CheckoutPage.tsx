@@ -288,27 +288,32 @@ export default function CheckoutPage({
   let imageUrl = "";
 
   if (screenshot) {
-    const data = new FormData();
+  const data = new FormData();
 
-    data.append("file", screenshot);
+  data.append("file", screenshot);
+  data.append("upload_preset", "payments");
 
-    data.append("upload_preset", "payments");
+  const response = await fetch(
+    "https://api.cloudinary.com/v1_1/YOUR_CLOUD_NAME/image/upload",
+    {
+      method: "POST",
+      body: data,
+    }
+  );
 
-    const response = await fetch(
-      "https://api.cloudinary.com/v1_1/dtnmguh0u/image/upload",
-      {
-        method: "POST",
-        body: data,
-      }
-    );
+  const result = await response.json();
 
-    const result = await response.json();
+  console.log("Cloudinary Result:", result);
 
-    alert(JSON.stringify(result));
-console.log(result);
-
-    imageUrl = result.secure_url;
+  if (!response.ok) {
+    alert("Cloudinary Error: " + JSON.stringify(result));
+    return;
   }
+
+  alert("Image uploaded successfully!");
+
+  imageUrl = result.secure_url;
+}
 
   await addDoc(collection(db, "orders"), {
     customerName: form.fullName,
