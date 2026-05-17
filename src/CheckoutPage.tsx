@@ -304,7 +304,8 @@ export default function CheckoutPage({
 
     const result = await response.json();
 
-    console.log(result);
+    alert(JSON.stringify(result));
+console.log(result);
 
     imageUrl = result.secure_url;
   }
