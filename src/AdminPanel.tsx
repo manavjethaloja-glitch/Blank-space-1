@@ -47,8 +47,23 @@ export default function AdminPanel({ onBack }) {
               className="bg-white p-5 rounded-2xl shadow"
             >
               <p><strong>Name:</strong> {order.customerName}</p>
-              <p><strong>Product:</strong> {order.product}</p>
-              <p><strong>Status:</strong> {order.paymentStatus}</p>
+
+<p><strong>Phone:</strong> {order.phone}</p>
+
+<p>
+  <strong>Products:</strong>{" "}
+  {order.products?.map((p: any) => p.name).join(", ")}
+</p>
+
+<p><strong>Total:</strong> ${order.total}</p>
+
+<p><strong>Status:</strong> {order.status}</p>
+
+<img
+  src={order.paymentScreenshot}
+  alt="Payment Screenshot"
+  className="w-40 mt-3 rounded-lg border"
+/>
             </div>
           ))
         )}
