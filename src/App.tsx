@@ -130,7 +130,7 @@ const IconArrow = () => (
 );
 
 // ─── App ──────────────────────────────────────────────────────────────────────
-export default function App()
+export default function App() {
   const saveOrder = async () => {
   try {
     await addDoc(collection(db, "orders"), {
