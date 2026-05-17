@@ -146,7 +146,7 @@ export default function App() {
     console.error("Firebase Error:", error);
   }
 };
-  const [page, setPage] = useState<"home" | "checkout">("home");
+  const [page, setPage] = useState<"home" | "checkout" | "admin">("home");
   const [cartOpen, setCartOpen] = useState(false);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [activeCategory, setActiveCategory] = useState("All");
@@ -208,6 +208,9 @@ export default function App() {
     );
   }
 
+  if (page === "admin") {
+  return <AdminPanel onBack={() => setPage("home")} />;
+}
   return (
     <div className="min-h-screen" style={{ backgroundColor: "#F8F6F2", color: "#1a1a1a" }}>
 
@@ -294,8 +297,16 @@ export default function App() {
 
           {/* Right actions */}
           <div className="flex items-center gap-4">
-            <button onClick={() => setCartOpen(true)} className="relative hover:opacity-60 transition-opacity">
-              <IconCart />
+
+  <button
+    onClick={() => setPage("admin")}
+    className="text-sm border border-[#d8d5d0] px-4 py-2 rounded-full hover:bg-[#1a1a1a] hover:text-white transition"
+  >
+    Admin
+  </button>
+
+  <button onClick={() => setCartOpen(true)} className="relative hover:opacity-60 transition-opacity">
+    <IconCart />
               {totalItems > 0 && (
                 <span className="absolute -top-2 -right-2 w-4 h-4 bg-[#1a1a1a] text-[#F8F6F2] text-[9px] font-semibold rounded-full flex items-center justify-center">
                   {totalItems}
