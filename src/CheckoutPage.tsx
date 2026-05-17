@@ -1,4 +1,6 @@
-import { useState, useRef, useCallback } from "react";
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "./firebase";
+ import { useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
