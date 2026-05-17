@@ -1,7 +1,7 @@
  import { useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { collection, addDoc } from "firebase/firestore";
-import { db } from "./firebase";
+import { db } from "../firebase";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 type CartItem = {
@@ -179,6 +179,26 @@ export default function CheckoutPage({
   onBack: () => void;
   onOrderSuccess: () => void;
 }) {
+ 
+ const saveOrder = async () => {
+  try {
+    await addDoc(collection(db, "orders"), {
+      customerName: form.fullName,
+      phone: form.phone,
+      email: form.email,
+      address: form.address,
+      city: form.city,
+      state: form.state,
+      pincode: form.pincode,
+      total: total,
+      createdAt: new Date(),
+    });
+
+    console.log("Order saved!");
+  } catch (error) {
+    console.error("Firebase Error:", error);
+  }
+};
   const [form, setForm] = useState<FormData>({
     fullName: "", phone: "", email: "", address: "", city: "", state: "", pincode: "",
   });
@@ -258,6 +278,7 @@ export default function CheckoutPage({
     setLoading(true);
     await new Promise((r) => setTimeout(r, 2000));
     setLoading(false);
+   await saveOrder();
     setShowSuccess(true);
   };
 
