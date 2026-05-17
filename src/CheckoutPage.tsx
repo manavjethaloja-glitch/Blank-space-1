@@ -292,7 +292,7 @@ export default function CheckoutPage({
 
     data.append("file", screenshot);
 
-    data.append("upload_preset", "Blank-space");
+    data.append("upload_preset", "payments");
 
     const response = await fetch(
       "https://api.cloudinary.com/v1_1/dtnmguh0u/image/upload",
