@@ -285,23 +285,25 @@ export default function CheckoutPage({
   try {
   setLoading(true);
 
-  const imageData = new FormData();
+// Upload image to Cloudinary
+let imageUrl = "";
 
-  imageData.append("file", screenshot!);
+if (screenshot) {
+  const data = new FormData();
+  data.append("file", screenshot);
+  data.append("upload_preset", "Blank-space");
 
-  imageData.append("upload_preset", "Blank-space");
-
-  const response = await fetch(
+  const res = await fetch(
     "https://api.cloudinary.com/v1_1/dtnmguh0u/image/upload",
     {
       method: "POST",
-      body: imageData,
+      body: data,
     }
   );
 
-  const imageResult = await response.json();
-
-  const screenshotUrl = imageResult.secure_url;
+  const uploadedImage = await res.json();
+  imageUrl = uploadedImage.secure_url;
+}
 
   await addDoc(collection(db, "orders"), {
     await addDoc(collection(db, "orders"), {
@@ -313,7 +315,7 @@ export default function CheckoutPage({
       state: form.state,
       pincode: form.pincode,
       total: total,
-   paymentScreenshot: screenshotUrl,
+   paymentScreenshot: imageUrl,
       createdAt: new Date(),
     });
 
