@@ -300,6 +300,13 @@ export default function App() {
           <div className="flex items-center gap-4">
 
   <button
+    onClick={saveOrder}
+    className="text-sm border border-green-500 px-4 py-2 rounded-full text-green-600"
+  >
+    Test Firebase
+  </button>
+
+  <button
     onClick={() => setPage("admin")}
     className="text-sm border border-[#d8d5d0] px-4 py-2 rounded-full hover:bg-[#1a1a1a] hover:text-white transition"
   >
