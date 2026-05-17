@@ -1,7 +1,31 @@
+import { useEffect, useState } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "./firebase";
+
 export default function AdminPanel({ onBack }) {
+  const [orders, setOrders] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "orders"));
+
+        const ordersData = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setOrders(ordersData);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+      }
+    };
+
+    fetchOrders();
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#F8F6F2] p-8">
-      
       <button
         onClick={onBack}
         className="mb-6 bg-black text-white px-4 py-2 rounded-full"
@@ -13,12 +37,22 @@ export default function AdminPanel({ onBack }) {
         Admin Panel
       </h1>
 
-      <div className="bg-white rounded-2xl p-6 shadow">
-        <p className="text-gray-600">
-          Orders will appear here.
-        </p>
+      <div className="space-y-4">
+        {orders.length === 0 ? (
+          <p>No orders yet.</p>
+        ) : (
+          orders.map((order) => (
+            <div
+              key={order.id}
+              className="bg-white p-5 rounded-2xl shadow"
+            >
+              <p><strong>Name:</strong> {order.customerName}</p>
+              <p><strong>Product:</strong> {order.product}</p>
+              <p><strong>Status:</strong> {order.paymentStatus}</p>
+            </div>
+          ))
+        )}
       </div>
-
     </div>
   );
 }
