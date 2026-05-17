@@ -1,7 +1,7 @@
-import { collection, addDoc } from "firebase/firestore";
-import { db } from "./firebase";
  import { useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "./firebase";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 type CartItem = {
