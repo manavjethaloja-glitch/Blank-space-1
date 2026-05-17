@@ -283,8 +283,27 @@ export default function CheckoutPage({
   }
 
   try {
-    setLoading(true);
+  setLoading(true);
 
+  const imageData = new FormData();
+
+  imageData.append("file", screenshot!);
+
+  imageData.append("upload_preset", "Blank-space");
+
+  const response = await fetch(
+    "https://api.cloudinary.com/v1_1/dtnmguh0u/image/upload",
+    {
+      method: "POST",
+      body: imageData,
+    }
+  );
+
+  const imageResult = await response.json();
+
+  const screenshotUrl = imageResult.secure_url;
+
+  await addDoc(collection(db, "orders"), {
     await addDoc(collection(db, "orders"), {
       customerName: form.fullName,
       phone: form.phone,
