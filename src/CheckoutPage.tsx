@@ -183,16 +183,31 @@ export default function CheckoutPage({
  const saveOrder = async () => {
   try {
     await addDoc(collection(db, "orders"), {
-      customerName: form.fullName,
-      phone: form.phone,
-      email: form.email,
-      address: form.address,
-      city: form.city,
-      state: form.state,
-      pincode: form.pincode,
-      total: total,
-      createdAt: new Date(),
-    });
+  customerName: form.fullName,
+  phone: form.phone,
+  email: form.email,
+
+  address: form.address,
+  city: form.city,
+  state: form.state,
+  pincode: form.pincode,
+
+  products: cart.map((item) => ({
+    name: item.name,
+    size: item.size,
+    qty: item.qty,
+    price: item.price,
+    image: item.image,
+  })),
+
+  total: total,
+
+  paymentScreenshot: imageUrl,
+
+  status: "Pending",
+
+  createdAt: new Date(),
+});
 
     console.log("Order saved!");
   } catch (error) {
