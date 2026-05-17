@@ -1,7 +1,7 @@
-import { collection, addDoc } from "firebase/firestore";
-import { db } from "./firebase";
 import { useState, useEffect, useRef } from "react";
 import CheckoutPage from "./CheckoutPage";
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "./firebase";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 const products = [
