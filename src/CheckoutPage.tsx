@@ -285,49 +285,51 @@ export default function CheckoutPage({
   try {
   setLoading(true);
 
-// Upload image to Cloudinary
-let imageUrl = "";
+  let imageUrl = "";
 
-if (screenshot) {
-  const data = new FormData();
-  data.append("file", screenshot);
-  data.append("upload_preset", "Blank-space");
+  if (screenshot) {
+    const data = new FormData();
 
-  const res = await fetch(
-    "https://api.cloudinary.com/v1_1/dtnmguh0u/image/upload",
-    {
-      method: "POST",
-      body: data,
-    }
-  );
+    data.append("file", screenshot);
 
-  const uploadedImage = await res.json();
-  imageUrl = uploadedImage.secure_url;
-}
+    data.append("upload_preset", "Blank-space");
+
+    const response = await fetch(
+      "https://api.cloudinary.com/v1_1/dtnmguh0u/image/upload",
+      {
+        method: "POST",
+        body: data,
+      }
+    );
+
+    const result = await response.json();
+
+    console.log(result);
+
+    imageUrl = result.secure_url;
+  }
 
   await addDoc(collection(db, "orders"), {
-      customerName: form.fullName,
-      phone: form.phone,
-      email: form.email,
-      address: form.address,
-      city: form.city,
-      state: form.state,
-      pincode: form.pincode,
-      total: total,
-   paymentScreenshot: imageUrl,
-      createdAt: new Date(),
-    });
+    customerName: form.fullName,
+    phone: form.phone,
+    email: form.email,
+    address: form.address,
+    city: form.city,
+    state: form.state,
+    pincode: form.pincode,
+    total: total,
+    paymentScreenshot: imageUrl,
+    createdAt: new Date(),
+  });
 
-    console.log("ORDER SAVED");
+  setShowSuccess(true);
 
-    setShowSuccess(true);
-
-  } catch (error) {
-    console.error(error);
-    alert("Order failed");
-  } finally {
-    setLoading(false);
-  }
+} catch (error) {
+  console.error("UPLOAD ERROR:", error);
+  alert("Upload failed");
+} finally {
+  setLoading(false);
+}
 };
 
   const handleSuccessClose = () => {
