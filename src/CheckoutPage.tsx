@@ -271,16 +271,43 @@ export default function CheckoutPage({
 
   // ── Submit ──
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const valid = validate();
-    if (!valid) return;
-    if (!screenshot) { setScreenshotError("Please upload your payment screenshot."); return; }
+  e.preventDefault();
+
+  const valid = validate();
+
+  if (!valid) return;
+
+  if (!screenshot) {
+    setScreenshotError("Please upload your payment screenshot.");
+    return;
+  }
+
+  try {
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 2000));
-    setLoading(false);
-   await saveOrder();
+
+    await addDoc(collection(db, "orders"), {
+      customerName: form.fullName,
+      phone: form.phone,
+      email: form.email,
+      address: form.address,
+      city: form.city,
+      state: form.state,
+      pincode: form.pincode,
+      total: total,
+      createdAt: new Date(),
+    });
+
+    console.log("ORDER SAVED");
+
     setShowSuccess(true);
-  };
+
+  } catch (error) {
+    console.error(error);
+    alert("Order failed");
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleSuccessClose = () => {
     setShowSuccess(false);
