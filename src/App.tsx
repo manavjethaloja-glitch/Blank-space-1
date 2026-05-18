@@ -150,11 +150,14 @@ const hash = window.location.hash;
   const [scrolled, setScrolled] = useState(false);
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+  const [user, setUser] = useState<any>(null);
   
-  useEffect(() => {
-  if (window.location.hash === "#adminsecret123") {
-    setPage("admin");
-  }
+useEffect(() => {
+  const unsub = onAuthStateChanged(auth, (currentUser) => {
+    setUser(currentUser);
+  });
+
+  return () => unsub();
 }, []);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -304,15 +307,17 @@ if (hash === "#/account") {
           {/* Right actions */}
           <div className="flex items-center gap-4">
 
- <button
-  onClick={() => {
-    window.location.hash = "/login";
-    window.location.reload();
-  }}
-  className="text-sm border border-[#d8d5d0] px-4 py-2 rounded-full"
->
-  Login
-</button>
+ {!user && (
+  <button
+    onClick={() => {
+      window.location.hash = "/login";
+      window.location.reload();
+    }}
+    className="text-sm border border-[#d8d5d0] px-4 py-2 rounded-full"
+  >
+    Login
+  </button>
+)}
             <button
   onClick={() => {
     window.location.hash = "/account";
