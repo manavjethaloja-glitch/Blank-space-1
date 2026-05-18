@@ -84,7 +84,10 @@ export default function AccountPage() {
       <div className="min-h-screen flex flex-col items-center justify-center bg-white text-xs tracking-widest p-6 text-center space-y-4">
         <p className="uppercase">PLEASE LOG IN TO VIEW YOUR ACCOUNT DETAILS</p>
         <button 
-          onClick={() => window.location.href = "/login"}
+          onClick={() => {
+  window.location.hash = "/login";
+  window.location.reload();
+}}
           className="border border-black px-6 py-3 uppercase text-[11px] tracking-widest font-medium"
         >
           GO TO LOGIN
