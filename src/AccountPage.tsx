@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { auth, db } from "./firebase";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 
 export default function AccountPage() {
@@ -44,17 +44,26 @@ export default function AccountPage() {
   }, []);
 
   const handleUpdateProfile = async () => {
-    if (!user) return;
-    try {
-      await updateDoc(doc(db, "users", user.uid), {
+  if (!user) return;
+
+  try {
+    await setDoc(
+      doc(db, "users", user.uid),
+      {
         name: name,
         phone: phone,
-      });
-      alert("DETAILS UPDATED SUCCESSFULLY");
-    } catch (error: any) {
-      alert(error.message);
-    }
-  };
+        email: email,
+        uid: user.uid,
+        updatedAt: new Date(),
+      },
+      { merge: true }
+    );
+
+    alert("DETAILS UPDATED SUCCESSFULLY");
+  } catch (error: any) {
+    alert(error.message);
+  }
+};
 
   const handleSignOut = () => {
     signOut(auth).then(() => {
