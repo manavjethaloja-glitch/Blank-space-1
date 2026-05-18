@@ -44,6 +44,27 @@ const [confirmationResult, setConfirmationResult] = useState<any>(null);
   const sendOTP = async () => {
   try {
     const verifier = new RecaptchaVerifier(
+      "recaptcha-container",
+      {},
+      auth
+    );
+
+    const result = await signInWithPhoneNumber(
+      auth,
+      phone,
+      verifier
+    );
+
+    setConfirmationResult(result);
+
+    alert("OTP Sent!");
+  } catch (error: any) {
+    console.error(error);
+    alert(error.message);
+  }
+};
+  try {
+    const verifier = new RecaptchaVerifier(
       auth,
       "recaptcha-container",
       {}
