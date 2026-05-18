@@ -302,13 +302,19 @@ if (path === "/Blank-space/login") {
           <div className="flex items-center gap-4">
 
  <button
-  onClick={() => window.location.href = "/Blank-space/login"}
+  onClick={() => {
+    window.location.href =
+      "https://manavjethaloja-glitch.github.io/Blank-space/#/login";
+  }}
   className="text-sm border border-[#d8d5d0] px-4 py-2 rounded-full"
 >
   Login
 </button>
             <button
-  onClick={() => window.location.href = "/Blank-space/account"}
+  onClick={() => {
+    window.location.href =
+      "https://manavjethaloja-glitch.github.io/Blank-space/#/account";
+  }}
   className="text-sm border border-[#d8d5d0] px-4 py-2 rounded-full"
 >
   My Account
