@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   signInWithPopup,
   signInWithEmailAndPassword,
@@ -12,8 +13,8 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
-const [otp, setOtp] = useState("");
-const [confirmationResult, setConfirmationResult] = useState<any>(null);
+  const [otp, setOtp] = useState("");
+  const [confirmationResult, setConfirmationResult] = useState<any>(null);
 
   const signup = async () => {
     try {
@@ -41,58 +42,37 @@ const [confirmationResult, setConfirmationResult] = useState<any>(null);
       alert(error.message);
     }
   };
+
   const sendOTP = async () => {
-  try {
-    const verifier = new RecaptchaVerifier(
-      "recaptcha-container",
-      {},
-      auth
-    );
+    try {
+      const verifier = new RecaptchaVerifier(
+        "recaptcha-container",
+        {},
+        auth
+      );
 
-    const result = await signInWithPhoneNumber(
-      auth,
-      phone,
-      verifier
-    );
+      const result = await signInWithPhoneNumber(
+        auth,
+        phone,
+        verifier
+      );
 
-    setConfirmationResult(result);
+      setConfirmationResult(result);
+      alert("OTP Sent!");
+    } catch (error: any) {
+      console.error(error);
+      alert(error.message);
+    }
+  };
 
-    alert("OTP Sent!");
-  } catch (error: any) {
-    console.error(error);
-    alert(error.message);
-  }
-};
-  try {
-    const verifier = new RecaptchaVerifier(
-      auth,
-      "recaptcha-container",
-      {}
-    );
-
-    const result = await signInWithPhoneNumber(
-      auth,
-      phone,
-      verifier
-    );
-
-    setConfirmationResult(result);
-
-    alert("OTP Sent!");
-  } catch (error: any) {
-    alert(error.message);
-  }
-};
-
-const verifyOTP = async () => {
-  try {
-    await confirmationResult.confirm(otp);
-
-    alert("Phone login successful!");
-  } catch (error: any) {
-    alert(error.message);
-  }
-};
+  const verifyOTP = async () => {
+    try {
+      await confirmationResult.confirm(otp);
+      alert("Phone login successful!");
+    } catch (error: any) {
+      alert(error.message);
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#F8F6F2] px-6">
@@ -137,39 +117,40 @@ const verifyOTP = async () => {
         >
           Continue with Google
         </button>
+        
         <div className="mt-6">
-  <input
-    type="text"
-    placeholder="+91 9876543210"
-    className="w-full border p-3 rounded-xl mb-3"
-    value={phone}
-    onChange={(e) => setPhone(e.target.value)}
-  />
+          <input
+            type="text"
+            placeholder="+91 9876543210"
+            className="w-full border p-3 rounded-xl mb-3"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+          />
 
-  <button
-    onClick={sendOTP}
-    className="w-full bg-blue-500 text-white p-3 rounded-xl mb-3"
-  >
-    Send OTP
-  </button>
+          <button
+            onClick={sendOTP}
+            className="w-full bg-blue-500 text-white p-3 rounded-xl mb-3"
+          >
+            Send OTP
+          </button>
 
-  <input
-    type="text"
-    placeholder="Enter OTP"
-    className="w-full border p-3 rounded-xl mb-3"
-    value={otp}
-    onChange={(e) => setOtp(e.target.value)}
-  />
+          <input
+            type="text"
+            placeholder="Enter OTP"
+            className="w-full border p-3 rounded-xl mb-3"
+            value={otp}
+            onChange={(e) => setOtp(e.target.value)}
+          />
 
-  <button
-    onClick={verifyOTP}
-    className="w-full bg-green-500 text-white p-3 rounded-xl"
-  >
-    Verify OTP
-  </button>
+          <button
+            onClick={verifyOTP}
+            className="w-full bg-green-500 text-white p-3 rounded-xl"
+          >
+            Verify OTP
+          </button>
 
-  <div id="recaptcha-container"></div>
-</div>
+          <div id="recaptcha-container"></div>
+        </div>
       </div>
     </div>
   );
