@@ -134,7 +134,9 @@ const IconArrow = () => (
 
 // ─── App ──────────────────────────────────────────────────────────────────────
 export default function App() {
-  const [page, setPage] = useState<"home" | "checkout" | "admin">("home");
+  const [page, setPage] = useState<
+  "home" | "checkout" | "admin" | "login"
+>("home");
   const [cartOpen, setCartOpen] = useState(false);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [activeCategory, setActiveCategory] = useState("All");
@@ -192,6 +194,9 @@ export default function App() {
   const navLinks = ["Shop", "About", "Reviews", "Contact"];
 
   // ── Checkout page render ──
+ if (page === "login") {
+  return <LoginPage />;
+}
   if (page === "checkout") {
     return (
       <CheckoutPage
@@ -292,7 +297,13 @@ export default function App() {
           {/* Right actions */}
           <div className="flex items-center gap-4">
 
-  <button onClick={() => setCartOpen(true)} className="relative hover:opacity-60 transition-opacity">
+ <button
+  onClick={() => setPage("login")}
+  className="text-sm border border-[#d8d5d0] px-4 py-2 rounded-full"
+>
+  Login
+</button>
+            <button onClick={() => setCartOpen(true)} className="relative hover:opacity-60 transition-opacity">
     <IconCart />
               {totalItems > 0 && (
                 <span className="absolute -top-2 -right-2 w-4 h-4 bg-[#1a1a1a] text-[#F8F6F2] text-[9px] font-semibold rounded-full flex items-center justify-center">
