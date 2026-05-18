@@ -1,6 +1,6 @@
 import { useState } from "react";
 import {
-  signInWithPopup,
+  signInWithRedirect,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   RecaptchaVerifier,
@@ -35,13 +35,13 @@ export default function LoginPage() {
   };
 
   const googleLogin = async () => {
-    try {
-      await signInWithPopup(auth, googleProvider);
-      alert("Google login success!");
-    } catch (error: any) {
-      alert(error.message);
-    }
-  };
+  try {
+    await signInWithRedirect(auth, googleProvider);
+  } catch (error: any) {
+    console.error(error);
+    alert(error.message);
+  }
+};
 
   const sendOTP = async () => {
     try {
