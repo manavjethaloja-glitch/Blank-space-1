@@ -75,83 +75,129 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#F8F6F2] px-6">
-      <div className="bg-white p-8 rounded-2xl w-full max-w-md shadow-lg">
-        <h1 className="text-3xl font-semibold mb-6 text-center">
-          Login
-        </h1>
-
-        <input
-          type="email"
-          placeholder="Email"
-          className="w-full border p-3 rounded-xl mb-4"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-
-        <input
-          type="password"
-          placeholder="Password"
-          className="w-full border p-3 rounded-xl mb-4"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        <button
-          onClick={login}
-          className="w-full bg-black text-white p-3 rounded-xl mb-3"
-        >
-          Login
-        </button>
-
-        <button
-          onClick={signup}
-          className="w-full border p-3 rounded-xl mb-3"
-        >
-          Create Account
-        </button>
-
-        <button
-          onClick={googleLogin}
-          className="w-full bg-red-500 text-white p-3 rounded-xl"
-        >
-          Continue with Google
-        </button>
+    <div className="min-h-screen w-full flex flex-col md:flex-row bg-white font-sans text-xs tracking-wider uppercase text-black">
+      
+      {/* LEFT SIDE: LOGIN FORM */}
+      <div className="w-full md:w-1/2 flex flex-col justify-between p-8 md:p-16 lg:p-24 min-h-screen">
         
-        <div className="mt-6">
-          <input
-            type="text"
-            placeholder="+91 9876543210"
-            className="w-full border p-3 rounded-xl mb-3"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-          />
+        {/* Brand Header */}
+        <div>
+          <h1 className="text-7xl md:text-8xl font-black tracking-tighter leading-none mb-16 font-serif">
+            BLANK SPACE
+          </h1>
+          <h2 className="text-xs font-semibold tracking-widest text-neutral-500 mb-8">
+            LOG IN OR REGISTER
+          </h2>
+        </div>
 
-          <button
-            onClick={sendOTP}
-            className="w-full bg-blue-500 text-white p-3 rounded-xl mb-3"
-          >
-            Send OTP
-          </button>
+        {/* Input & Form Area */}
+        <div className="max-w-sm w-full my-auto space-y-6">
+          <div className="relative">
+            <input
+              type="email"
+              placeholder="EMAIL"
+              className="w-full border-b border-neutral-300 py-2 focus:outline-none focus:border-black transition-colors bg-transparent placeholder-neutral-400"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
 
-          <input
-            type="text"
-            placeholder="Enter OTP"
-            className="w-full border p-3 rounded-xl mb-3"
-            value={otp}
-            onChange={(e) => setOtp(e.target.value)}
-          />
+          <div className="relative">
+            <input
+              type="password"
+              placeholder="PASSWORD"
+              className="w-full border-b border-neutral-300 py-2 focus:outline-none focus:border-black transition-colors bg-transparent placeholder-neutral-400"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
 
-          <button
-            onClick={verifyOTP}
-            className="w-full bg-green-500 text-white p-3 rounded-xl"
-          >
-            Verify OTP
-          </button>
+          <div className="pt-4 space-y-3">
+            <button
+              onClick={login}
+              className="w-full border border-black py-3 text-center hover:bg-black hover:text-white transition-all font-medium tracking-widest"
+            >
+              CONTINUE
+            </button>
+            <button
+              onClick={signup}
+              className="w-full border border-neutral-300 py-3 text-center text-neutral-500 hover:border-black hover:text-black transition-all font-medium tracking-widest"
+            >
+              CREATE AN ACCOUNT
+            </button>
+          </div>
 
-          <div id="recaptcha-container"></div>
+          {/* Phone / OTP Authentication Section */}
+          <div className="border-t border-neutral-200 pt-8 mt-8 space-y-4">
+            <h3 className="text-[10px] font-semibold text-neutral-400 tracking-widest mb-2">
+              ACCESS WITH PHONE NUMBER
+            </h3>
+            
+            <input
+              type="text"
+              placeholder="+91 9876543210"
+              className="w-full border-b border-neutral-300 py-2 focus:outline-none focus:border-black transition-colors bg-transparent placeholder-neutral-400"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
+            
+            <button
+              onClick={sendOTP}
+              className="w-full border border-neutral-300 py-2 text-center text-neutral-600 hover:border-black hover:text-black transition-all text-[11px]"
+            >
+              SEND OTP
+            </button>
+
+            <div id="recaptcha-container" className="my-2"></div>
+
+            <input
+              type="text"
+              placeholder="ENTER 6-DIGIT OTP"
+              className="w-full border-b border-neutral-300 py-2 focus:outline-none focus:border-black transition-colors bg-transparent placeholder-neutral-400"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+            />
+
+            <button
+              onClick={verifyOTP}
+              className="w-full border border-black py-2 text-center bg-black text-white hover:bg-neutral-800 transition-all text-[11px]"
+            >
+              VERIFY OTP
+            </button>
+          </div>
+
+          {/* Social Access Section */}
+          <div className="pt-6 space-y-3">
+            <p className="text-[10px] text-neutral-400 leading-normal normal-case tracking-normal mb-2">
+              By logging in with your social login, I agree to link my account in accordance with the <span className="underline cursor-pointer">Privacy Policy</span>.
+            </p>
+            
+            <button
+              onClick={googleLogin}
+              className="w-full border border-neutral-300 py-3 flex items-center justify-center space-x-2 hover:border-black transition-all font-medium tracking-widest"
+            >
+              <span>CONTINUE WITH GOOGLE</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Footer Link */}
+        <div className="pt-12">
+          <a href="#help" className="text-neutral-400 hover:text-black transition-colors text-[10px] font-medium tracking-widest">
+            HELP
+          </a>
         </div>
       </div>
+
+      {/* RIGHT SIDE: EDITORIAL HERO IMAGE */}
+      <div className="hidden md:block md:w-1/2 h-screen sticky top-0">
+        <img
+          src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=80"
+          alt="Editorial Fashion Background"
+          className="w-full h-full object-cover object-center grayscale font-light"
+        />
+      </div>
+
     </div>
   );
 }
