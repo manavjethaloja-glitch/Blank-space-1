@@ -11,6 +11,9 @@ import { auth, googleProvider } from "./firebase";
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
+const [otp, setOtp] = useState("");
+const [confirmationResult, setConfirmationResult] = useState<any>(null);
 
   const signup = async () => {
     try {
