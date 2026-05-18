@@ -26,19 +26,25 @@ export default function LoginPage() {
   };
 
   const login = async () => {
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      alert("Logged in!");
-    } catch (error: any) {
-      alert(error.message);
-    }
-  };
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    alert("Logged in!");
+
+    window.location.hash = "";
+    window.location.href = "/Blank-space/";
+  } catch (error: any) {
+    alert(error.message);
+  }
+};
 
   const googleLogin = async () => {
   try {
-    await signInWithRedirect(auth, googleProvider);
+    await signInWithPopup(auth, googleProvider);
+    alert("Google login success!");
+
+    window.location.hash = "";
+    window.location.href = "/Blank-space/";
   } catch (error: any) {
-    console.error(error);
     alert(error.message);
   }
 };
