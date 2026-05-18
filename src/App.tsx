@@ -1,8 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import LoginPage from "./LoginPage";
 import AccountPage from "./AccountPage";
-import AccountPage from "./AccountPage";
-import LoginPage from "./LoginPage";
 import { uploadProducts } from "./uploadProducts";
 import AdminPanel from "./AdminPanel";
 import { useState, useEffect, useRef } from "react";
@@ -138,6 +136,7 @@ const IconArrow = () => (
 
 // ─── App ──────────────────────────────────────────────────────────────────────
 export default function App() {
+  const path = window.location.pathname;
   const [page, setPage] = useState<"home" | "checkout" | "admin" | "login" | "account">("home");
   const [cartOpen, setCartOpen] = useState(false);
   const [cart, setCart] = useState<CartItem[]>([]);
@@ -195,10 +194,11 @@ export default function App() {
 
   const navLinks = ["Shop", "About", "Reviews", "Contact"];
 
-if (page === "account") {
-  return <AccountPage onBack={() => setPage("home")} />;
-}  // ── Checkout page render ──
- if (page === "login") {
+if (path === "/Blank-space/account") {
+  return <AccountPage />;
+}
+
+if (path === "/Blank-space/login") {
   return <LoginPage />;
 }
   if (page === "checkout") {
@@ -302,13 +302,13 @@ if (page === "account") {
           <div className="flex items-center gap-4">
 
  <button
-  onClick={() => setPage("login")}
+  onClick={() => window.location.href = "/Blank-space/login"}
   className="text-sm border border-[#d8d5d0] px-4 py-2 rounded-full"
 >
   Login
 </button>
             <button
-  onClick={() => setPage("account")}
+  onClick={() => window.location.href = "/Blank-space/account"}
   className="text-sm border border-[#d8d5d0] px-4 py-2 rounded-full"
 >
   My Account
