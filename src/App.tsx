@@ -135,9 +135,7 @@ const IconArrow = () => (
 
 // ─── App ──────────────────────────────────────────────────────────────────────
 export default function App() {
-  const [page, setPage] = useState<
-  "home" | "checkout" | "admin" | "login"
->("home");
+  const [page, setPage] = useState<"home" | "checkout" | "admin" | "login" | "account">("home");
   const [cartOpen, setCartOpen] = useState(false);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [activeCategory, setActiveCategory] = useState("All");
@@ -194,7 +192,9 @@ export default function App() {
 
   const navLinks = ["Shop", "About", "Reviews", "Contact"];
 
-  // ── Checkout page render ──
+if (page === "account") {
+  return <AccountPage onBack={() => setPage("home")} />;
+}  // ── Checkout page render ──
  if (page === "login") {
   return <LoginPage />;
 }
@@ -303,6 +303,12 @@ export default function App() {
   className="text-sm border border-[#d8d5d0] px-4 py-2 rounded-full"
 >
   Login
+</button>
+            <button
+  onClick={() => setPage("account")}
+  className="text-sm border border-[#d8d5d0] px-4 py-2 rounded-full"
+>
+  My Account
 </button>
             <button onClick={() => setCartOpen(true)} className="relative hover:opacity-60 transition-opacity">
     <IconCart />
