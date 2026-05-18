@@ -1,3 +1,6 @@
+import { Routes, Route } from "react-router-dom";
+import LoginPage from "./LoginPage";
+import AccountPage from "./AccountPage";
 import AccountPage from "./AccountPage";
 import LoginPage from "./LoginPage";
 import { uploadProducts } from "./uploadProducts";
