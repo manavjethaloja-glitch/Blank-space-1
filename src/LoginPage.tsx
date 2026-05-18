@@ -1,10 +1,11 @@
 import { useState } from "react";
 import {
-  signInWithRedirect,
+  signInWithPopup,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   RecaptchaVerifier,
   signInWithPhoneNumber,
+  onAuthStateChanged
 } from "firebase/auth";
 
 import { auth, googleProvider } from "./firebase";
@@ -40,11 +41,12 @@ export default function LoginPage() {
   const googleLogin = async () => {
   try {
     await signInWithPopup(auth, googleProvider);
-    alert("Google login success!");
 
-    window.location.hash = "";
-    window.location.href = "/Blank-space/";
+    window.location.hash = "#/";
+
+    alert("Google login success!");
   } catch (error: any) {
+    console.error(error);
     alert(error.message);
   }
 };
