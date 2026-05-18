@@ -304,8 +304,8 @@ if (hash === "#/account") {
 
  <button
   onClick={() => {
-    window.location.href =
-      "https://manavjethaloja-glitch.github.io/Blank-space/#/login";
+    window.location.hash = "/login";
+    window.location.reload();
   }}
   className="text-sm border border-[#d8d5d0] px-4 py-2 rounded-full"
 >
@@ -313,8 +313,8 @@ if (hash === "#/account") {
 </button>
             <button
   onClick={() => {
-    window.location.href =
-      "https://manavjethaloja-glitch.github.io/Blank-space/#/account";
+    window.location.hash = "/account";
+    window.location.reload();
   }}
   className="text-sm border border-[#d8d5d0] px-4 py-2 rounded-full"
 >
