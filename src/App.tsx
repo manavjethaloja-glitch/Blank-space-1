@@ -1,3 +1,4 @@
+import AccountPage from "./AccountPage";
 import LoginPage from "./LoginPage";
 import { uploadProducts } from "./uploadProducts";
 import AdminPanel from "./AdminPanel";
