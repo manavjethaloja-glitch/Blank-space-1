@@ -137,6 +137,7 @@ const IconArrow = () => (
 // ─── App ──────────────────────────────────────────────────────────────────────
 export default function App() {
   const path = window.location.pathname;
+const hash = window.location.hash;
   const [page, setPage] = useState<"home" | "checkout" | "admin" | "login" | "account">("home");
   const [cartOpen, setCartOpen] = useState(false);
   const [cart, setCart] = useState<CartItem[]>([]);
@@ -194,12 +195,12 @@ export default function App() {
 
   const navLinks = ["Shop", "About", "Reviews", "Contact"];
 
-if (path === "/Blank-space/account") {
-  return <AccountPage />;
+if (hash === "#/login") {
+  return <LoginPage />;
 }
 
-if (path === "/Blank-space/login") {
-  return <LoginPage />;
+if (hash === "#/account") {
+  return <AccountPage />;
 }
   if (page === "checkout") {
     return (
