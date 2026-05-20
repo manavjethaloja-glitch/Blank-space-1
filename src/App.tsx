@@ -2,7 +2,6 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
 import LoginPage from "./LoginPage";
 import AccountPage from "./AccountPage";
-import { uploadProducts } from "./uploadProducts";
 import AdminPanel from "./AdminPanel";
 import { useState, useEffect, useRef } from "react";
 import CheckoutPage from "./CheckoutPage";
@@ -10,7 +9,6 @@ import { collection, addDoc } from "firebase/firestore";
 import { db } from "./firebase";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
-const BASE = import.meta.env.BASE_URL; 
 const products =[
   {
     id: 1,
