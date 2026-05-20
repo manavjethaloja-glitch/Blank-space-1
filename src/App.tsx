@@ -1,6 +1,4 @@
-import { SpeedInsights } from "@vercel/speed-insights/next"
-  import { Analytics } from "@vercel/analytics/next"
-  import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
 import { Routes, Route } from "react-router-dom";
 import LoginPage from "./LoginPage";
@@ -19,7 +17,7 @@ const products = [
     name: "Solar Flare Tee",
     price: 34.99,
     originalPrice: 49.99,
-    image: "/Blank-space/images/tshirt-1.png",
+    image: "/images/tshirt-1.png",
     tag: "Bestseller",
     category: "Graphic",
     sizes: ["XS", "S", "M", "L", "XL"],
@@ -30,7 +28,7 @@ const products = [
     name: "Boom Static Tee",
     price: 38.99,
     originalPrice: 54.99,
-    image: "/Blank-space/images/tshirt-2.png",
+    image: "/images/tshirt-2.png",
     tag: "New",
     category: "Y2K",
     sizes: ["S", "M", "L", "XL", "XXL"],
@@ -41,7 +39,7 @@ const products = [
     name: "Shroom Trip Tee",
     price: 32.99,
     originalPrice: 44.99,
-    image: "/Blank-space/images/tshirt-3.png",
+    image: "/images/tshirt-3.png",
     tag: "Limited",
     category: "Psychedelic",
     sizes: ["XS", "S", "M", "L"],
@@ -52,7 +50,7 @@ const products = [
     name: "Butterfly Y2K Tee",
     price: 36.99,
     originalPrice: 52.99,
-    image: "/Blank-space/images/tshirt-4.png",
+    image: "/images/tshirt-4.png",
     tag: "Hot",
     category: "Y2K",
     sizes: ["XS", "S", "M", "L", "XL"],
@@ -63,7 +61,7 @@ const products = [
     name: "Acid Wash Tee",
     price: 33.99,
     originalPrice: 47.99,
-    image: "/Blank-space/images/tshirt-5.png",
+    image: "/images/tshirt-5.png",
     tag: "New",
     category: "Retro",
     sizes: ["S", "M", "L", "XL"],
@@ -74,7 +72,7 @@ const products = [
     name: "Tie-Dye Cloud Tee",
     price: 35.99,
     originalPrice: 49.99,
-    image: "/Blank-space/images/tshirt-6.png",
+    image: "/images/tshirt-6.png",
     tag: "Trending",
     category: "Tie-Dye",
     sizes: ["XS", "S", "M", "L", "XL", "XXL"],
@@ -402,7 +400,7 @@ if (hash === "#/account") {
             {/* Image */}
             <div className="relative">
               <div className="aspect-[3/4] rounded-2xl overflow-hidden bg-[#edeae4]">
-                <img src="/Blank-space/images/hero-tshirt.png" alt="Hero T-shirt" className="w-full h-full object-cover" />
+                <img src="/images/hero-tshirt.png" alt="Hero T-shirt" className="w-full h-full object-cover" />
               </div>
               {/* Floating label */}
               <div className="absolute -left-6 bottom-12 bg-[#F8F6F2] border border-[#e0ddd8] rounded-xl px-4 py-3 shadow-sm">
@@ -518,7 +516,7 @@ if (hash === "#/account") {
         <div className="max-w-6xl mx-auto px-6 py-24">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div className="aspect-[4/5] rounded-2xl overflow-hidden bg-[#edeae4]">
-              <img src="/Blank-space/images/IMG_0079.jpeg" alt="About" className="w-full h-full object-cover" />
+              <img src="/images/IMG_0079.jpeg" alt="About" className="w-full h-full object-cover" />
             </div>
             <div className="space-y-6">
               <p className="text-xs tracking-[0.2em] uppercase text-[#6b6864]">About</p>
