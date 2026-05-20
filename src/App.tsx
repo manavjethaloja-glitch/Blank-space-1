@@ -1,4 +1,5 @@
-import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
+  import { Analytics } from "@vercel/analytics/next"
   import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
 import { Routes, Route } from "react-router-dom";
