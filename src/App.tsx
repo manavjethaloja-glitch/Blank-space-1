@@ -1,4 +1,5 @@
-import { onAuthStateChanged } from "firebase/auth";
+import { Analytics } from "@vercel/analytics/next"
+  import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
 import { Routes, Route } from "react-router-dom";
 import LoginPage from "./LoginPage";
