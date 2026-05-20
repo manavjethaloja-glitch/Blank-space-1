@@ -11,7 +11,8 @@ import { collection, addDoc } from "firebase/firestore";
 import { db } from "./firebase";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
-const products = [
+const BASE = import.meta.env.BASE_URL; 
+const products =[
   {
     id: 1,
     name: "Solar Flare Tee",
