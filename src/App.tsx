@@ -206,7 +206,16 @@ useEffect(() => {
   const filtered = activeCategory === "All" ? products : products.filter((p) => p.category === activeCategory);
 
   const navLinks = ["Shop", "About", "Reviews", "Contact"];
-
+if (loadingScreen) {
+  return (
+    <div className="min-h-screen bg-[#1a1a1a] text-[#F8F6F2] flex flex-col items-center justify-center">
+      <h1 className="font-playfair text-5xl tracking-tight">BLANK SPACE</h1>
+      <p className="text-xs tracking-[0.3em] uppercase mt-4 text-[#a8a5a0]">
+        Archive 01
+      </p>
+    </div>
+  );
+}
 if (hash === "#/login") {
   return <LoginPage />;
 }
@@ -443,6 +452,24 @@ if (hash === "#adminsecret123") {
           ))}
         </div>
       </div>
+      <section className="border-t border-[#e0ddd8] bg-[#1a1a1a] text-[#F8F6F2]">
+  <div className="max-w-6xl mx-auto px-6 py-16 text-center">
+    <p className="text-xs tracking-[0.3em] uppercase text-[#a8a5a0]">
+      Drop 01 Ends In
+    </p>
+
+    <h2 className="font-playfair text-5xl mt-4">
+      03D : 14H : 28M
+    </h2>
+
+    <a
+      href="#shop"
+      className="inline-block mt-8 border border-[#F8F6F2] px-8 py-3 rounded-full text-xs tracking-widest uppercase hover:bg-[#F8F6F2] hover:text-[#1a1a1a] transition"
+    >
+      Shop Before It’s Gone
+    </a>
+  </div>
+</section>
 {/* ── Shop By Vibe ── */}
 <section className="border-t border-[#e0ddd8]">
   <div className="max-w-6xl mx-auto px-6 py-20">
