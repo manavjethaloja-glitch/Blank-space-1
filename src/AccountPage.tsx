@@ -21,6 +21,8 @@ type PurchaseOrder = {
   status: string;
 };
 
+const INR = (price: number) => `₹${Math.round(price * 85)}`;
+
 export default function AccountPage({ onBuyAgain }: { onBuyAgain?: (items: PurchaseItem[]) => void; }) {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -304,7 +306,7 @@ export default function AccountPage({ onBuyAgain }: { onBuyAgain?: (items: Purch
                           />
                           <div>
                             <p className="text-sm font-semibold text-[#1a1a1a]">{order.products[0].name}</p>
-                            <p className="text-[11px] text-[#6b6864] mt-1">${order.total}</p>
+                            <p className="text-[11px] text-[#6b6864] mt-1">{INR(order.total)}</p>
                             <p className="text-[11px] text-[#6b6864] mt-1">{order.status}</p>
                           </div>
                         </div>

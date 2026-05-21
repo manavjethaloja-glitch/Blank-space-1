@@ -95,6 +95,8 @@ type CartItem = {
   qty: number;
 };
 
+const INR = (price: number) => `₹${Math.round(price * 85)}`;
+
 // ─── Icons ────────────────────────────────────────────────────────────────────
 const IconCart = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -375,7 +377,7 @@ if (hash === "#adminsecret123") {
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium leading-tight">{item.name}</p>
                     <p className="text-xs text-[#6b6864] mt-0.5">Size: {item.size}</p>
-                    <p className="text-sm font-medium mt-1">${(item.price * item.qty).toFixed(2)}</p>
+                      <p className="text-sm font-medium mt-1">{INR(item.price * item.qty)}</p>
                     <div className="flex items-center gap-3 mt-2">
                       <div className="flex items-center gap-2 border border-[#d8d5d0] rounded-full px-3 py-1">
                         <button onClick={() => updateQty(item.id, item.size, -1)} className="hover:opacity-50 transition-opacity"><IconMinus /></button>
@@ -391,7 +393,7 @@ if (hash === "#adminsecret123") {
             <div className="px-6 py-5 border-t border-[#e0ddd8] space-y-4">
               <div className="flex justify-between text-sm">
                 <span className="text-[#6b6864]">Subtotal</span>
-                <span className="font-medium">${subtotal.toFixed(2)}</span>
+                <span className="font-medium">{INR(subtotal)}</span>
               </div>
               <p className="text-xs text-[#6b6864]">Shipping & taxes calculated at checkout.</p>
               <button
@@ -736,8 +738,8 @@ if (hash === "#adminsecret123") {
                   <h3 className="text-sm font-medium">{product.name}</h3>
                   <p className="text-xs text-[#6b6864] mt-0.5">{product.description}</p>
                   <div className="flex items-center gap-2 mt-2">
-                    <span className="text-sm font-medium">${product.price}</span>
-                    <span className="text-xs text-[#a8a5a0] line-through">${product.originalPrice}</span>
+                    <span className="text-sm font-medium">{INR(product.price)}</span>
+                    <span className="text-xs text-[#a8a5a0] line-through">{INR(product.originalPrice)}</span>
                   </div>
                 </div>
               </div>

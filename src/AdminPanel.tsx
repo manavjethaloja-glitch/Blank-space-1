@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "./firebase";
 
+const INR = (price: number) => `₹${Math.round(price * 85)}`;
+
 export default function AdminPanel({ onBack }) {
   const [orders, setOrders] = useState<any[]>([]);
 
@@ -55,7 +57,7 @@ export default function AdminPanel({ onBack }) {
   {order.products?.map((p: any) => p.name).join(", ")}
 </p>
 
-<p><strong>Total:</strong> ${order.total}</p>
+<p><strong>Total:</strong> {INR(order.total)}</p>
 
 <p><strong>Status:</strong> {order.status}</p>
 

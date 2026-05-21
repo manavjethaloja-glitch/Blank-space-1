@@ -25,6 +25,8 @@ type FormData = {
 
 type FormErrors = Partial<Record<keyof FormData, string>>;
 
+const INR = (price: number) => `₹${Math.round(price * 85)}`;
+
 const UPI_ID = "7575076577@fam";
 
 const INDIAN_STATES = [
@@ -690,7 +692,7 @@ export default function CheckoutPage({
                         <div className="flex-1 min-w-0">
                           <p className="text-sm font-medium text-[#1a1a1a] leading-tight truncate">{item.name}</p>
                           <p className="text-xs text-[#a8a5a0] mt-0.5">Size: {item.size}</p>
-                          <p className="text-sm font-medium text-[#1a1a1a] mt-1">${(item.price * item.qty).toFixed(2)}</p>
+                          <p className="text-sm font-medium text-[#1a1a1a] mt-1">{INR(item.price * item.qty)}</p>
                         </div>
                       </div>
                     ))}
@@ -699,7 +701,7 @@ export default function CheckoutPage({
                   {/* Totals */}
                   <div className="px-6 py-5 border-t border-[#e0ddd8] space-y-3">
                     <div className="flex justify-between text-sm text-[#6b6864]">
-                      <span>Subtotal</span><span>${subtotal.toFixed(2)}</span>
+                      <span>Subtotal</span><span>{INR(subtotal)}</span>
                     </div>
                     <div className="flex justify-between text-sm text-[#6b6864]">
                       <span>Shipping</span>
