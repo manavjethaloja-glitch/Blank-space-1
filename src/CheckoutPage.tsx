@@ -1,7 +1,7 @@
  import { useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { collection, addDoc } from "firebase/firestore";
-import { db } from "./firebase";
+import { auth, db } from "./firebase";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 type CartItem = {
@@ -330,7 +330,7 @@ export default function CheckoutPage({
   imageUrl = result.secure_url;
 }
 
-  await addDoc(collection(db, "orders"), {
+  const orderRef = await addDoc(collection(db, "orders"), {
   customerName: form.fullName,
   phone: form.phone,
   email: form.email,
@@ -341,6 +341,7 @@ export default function CheckoutPage({
   pincode: form.pincode,
 
   products: cart.map((item) => ({
+    id: item.id,
     name: item.name,
     size: item.size,
     qty: item.qty,
@@ -356,6 +357,25 @@ export default function CheckoutPage({
 
   createdAt: new Date(),
 });
+
+  const currentUser = auth.currentUser;
+  if (currentUser) {
+    await addDoc(collection(db, "purchaseHistory"), {
+      userId: currentUser.uid,
+      orderId: orderRef.id,
+      products: cart.map((item) => ({
+        id: item.id,
+        name: item.name,
+        image: item.image,
+        price: item.price,
+        qty: item.qty,
+        size: item.size,
+      })),
+      total: total,
+      orderDate: new Date().toISOString(),
+      status: "Processing",
+    });
+  }
 
   setShowSuccess(true);
 

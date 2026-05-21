@@ -1,11 +1,31 @@
 import { useState, useEffect } from "react";
 import { auth, db } from "./firebase";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, orderBy, query, setDoc, where } from "firebase/firestore";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 
-export default function AccountPage() {
+type PurchaseItem = {
+  id: number;
+  name: string;
+  image: string;
+  price: number;
+  qty: number;
+  size: string;
+};
+
+type PurchaseOrder = {
+  id: string;
+  orderId: string;
+  products: PurchaseItem[];
+  total: number;
+  orderDate: string;
+  status: string;
+};
+
+export default function AccountPage({ onBuyAgain }: { onBuyAgain?: (items: PurchaseItem[]) => void; }) {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [historyLoading, setHistoryLoading] = useState(true);
+  const [purchaseHistory, setPurchaseHistory] = useState<PurchaseOrder[]>([]);
   const [activeTab, setActiveTab] = useState("MY DETAILS");
 
   // Form states for profile editing
@@ -43,6 +63,41 @@ export default function AccountPage() {
     return () => unsubscribe();
   }, []);
 
+  useEffect(() => {
+    if (!user) return;
+
+    const loadHistory = async () => {
+      setHistoryLoading(true);
+      try {
+        const historyQuery = query(
+          collection(db, "purchaseHistory"),
+          where("userId", "==", user.uid),
+          orderBy("orderDate", "desc")
+        );
+        const historySnapshot = await getDocs(historyQuery);
+        setPurchaseHistory(
+          historySnapshot.docs.map((doc) => {
+            const data = doc.data();
+            return {
+              id: doc.id,
+              orderId: data.orderId,
+              products: data.products || [],
+              total: data.total || 0,
+              orderDate: data.orderDate || "",
+              status: data.status || "Processing",
+            };
+          })
+        );
+      } catch (error) {
+        console.error("Purchase history fetch error:", error);
+      } finally {
+        setHistoryLoading(false);
+      }
+    };
+
+    loadHistory();
+  }, [user]);
+
   const handleUpdateProfile = async () => {
   if (!user) return;
 
@@ -69,6 +124,24 @@ export default function AccountPage() {
     signOut(auth).then(() => {
       alert("SIGNED OUT SUCCESSFULLY");
     });
+  };
+
+  const handleViewOrder = (order: PurchaseOrder) => {
+    const details = order.products
+      .map((product) => `${product.qty} × ${product.name} (${product.size}) — $${(
+        product.price * product.qty
+      ).toFixed(2)}`)
+      .join("\n");
+
+    alert(`Order ${order.orderId}\nStatus: ${order.status}\nDate: ${new Date(
+      order.orderDate,
+    ).toLocaleDateString()}\n\n${details}\n\nTotal: $${order.total.toFixed(2)}`);
+  };
+
+  const handleBuyAgain = (products: PurchaseItem[]) => {
+    if (!onBuyAgain) return;
+    onBuyAgain(products);
+    alert("Order items added back to your bag.");
   };
 
   if (loading) {
@@ -222,6 +295,74 @@ export default function AccountPage() {
                   SIGN OUT
                 </button>
               </div>
+            </div>
+          ) : activeTab === "PURCHASES" ? (
+            <div className="space-y-8">
+              <div className="space-y-3">
+                <h3 className="text-[10px] tracking-[0.35em] uppercase text-[#6b6864]">Purchase History</h3>
+                <p className="text-xs text-[#6b6864] leading-relaxed">
+                  Past orders stored in your account. Reorder favorite looks or review any recent purchase.
+                </p>
+              </div>
+
+              {historyLoading ? (
+                <div className="rounded-3xl border border-[#e0ddd8] bg-[#F8F6F2] p-8 text-center text-sm text-[#6b6864]">
+                  Loading purchase history...
+                </div>
+              ) : purchaseHistory.length === 0 ? (
+                <div className="rounded-3xl border border-[#e0ddd8] bg-[#F8F6F2] p-12 text-center text-sm text-[#6b6864]">
+                  No purchases yet.
+                </div>
+              ) : (
+                <div className="space-y-6">
+                  {purchaseHistory.map((order) => (
+                    <article key={order.id} className="rounded-3xl border border-[#e0ddd8] bg-[#F8F6F2] p-6 shadow-[0_18px_50px_rgba(26,26,26,0.06)]">
+                      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                        <div className="space-y-2">
+                          <p className="text-[10px] tracking-[0.35em] uppercase text-[#6b6864]">Order {order.orderId}</p>
+                          <p className="text-sm font-semibold text-[#1a1a1a]">{new Date(order.orderDate).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</p>
+                        </div>
+                        <div className="rounded-full bg-white border border-[#e0ddd8] px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.3em] text-[#1a1a1a] w-fit">
+                          {order.status}
+                        </div>
+                      </div>
+
+                      <div className="mt-6 space-y-4">
+                        {order.products.map((product) => (
+                          <div key={`${product.id}-${product.size}`} className="flex items-center gap-4 rounded-3xl bg-white border border-[#e0ddd8] p-4">
+                            <img src={product.image} alt={product.name} className="h-20 w-20 rounded-3xl object-cover bg-[#f6f2eb]" />
+                            <div className="min-w-0">
+                              <p className="text-sm font-semibold text-[#1a1a1a]">{product.name}</p>
+                              <p className="text-[11px] text-[#6b6864] mt-1">Qty {product.qty} · Size {product.size}</p>
+                            </div>
+                            <p className="ml-auto text-sm font-semibold text-[#1a1a1a]">${(product.price * product.qty).toFixed(2)}</p>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                        <div className="text-sm text-[#6b6864]">
+                          Total <span className="font-semibold text-[#1a1a1a]">${order.total.toFixed(2)}</span>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-3">
+                          <button
+                            onClick={() => handleViewOrder(order)}
+                            className="rounded-full border border-[#d8d5d0] px-4 py-2 text-[11px] uppercase tracking-[0.28em] text-[#1a1a1a] hover:bg-white transition"
+                          >
+                            View order
+                          </button>
+                          <button
+                            onClick={() => handleBuyAgain(order.products)}
+                            className="rounded-full bg-[#1a1a1a] px-4 py-2 text-[11px] uppercase tracking-[0.28em] text-[#F8F6F2] hover:bg-[#333] transition"
+                          >
+                            Buy again
+                          </button>
+                        </div>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              )}
             </div>
           ) : (
             /* Fallback State placeholders for unbuilt options */

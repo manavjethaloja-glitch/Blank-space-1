@@ -189,6 +189,22 @@ useEffect(() => {
     showToast(`${product.name} added to bag`);
   };
 
+  const handleBuyAgain = (items: CartItem[]) => {
+    setCart((prev) => {
+      const next = [...prev];
+      items.forEach((item) => {
+        const existing = next.find((i) => i.id === item.id && i.size === item.size);
+        if (existing) {
+          existing.qty += item.qty;
+        } else {
+          next.push({ ...item });
+        }
+      });
+      return next;
+    });
+    showToast("Order items added to bag");
+  };
+
   const addToWishlist = (product: typeof products[0]) => {
     setWishlist((prev) => {
       const exists = prev.find((item) => item.id === product.id);
@@ -234,7 +250,7 @@ if (hash === "#/login") {
 }
 
 if (hash === "#/account") {
-  return <AccountPage />;
+  return <AccountPage onBuyAgain={handleBuyAgain} />;
 }
 
 if (hash === "#adminsecret123") {
