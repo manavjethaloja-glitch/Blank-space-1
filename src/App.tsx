@@ -434,7 +434,75 @@ if (hash === "#adminsecret123") {
           ))}
         </div>
       </div>
+{/* ── Shop By Vibe ── */}
+<section className="border-t border-[#e0ddd8]">
+  <div className="max-w-6xl mx-auto px-6 py-20">
 
+    <div className="text-center mb-10">
+      <p className="text-xs tracking-[0.2em] uppercase text-[#6b6864]">
+        Discover
+      </p>
+
+      <h2 className="font-playfair text-4xl mt-3">
+        Shop By Vibe
+      </h2>
+    </div>
+
+    <div className="grid md:grid-cols-3 gap-6">
+
+      {[
+        {
+          name: "Y2K",
+          img: "/images/tshirt-4.png",
+        },
+        {
+          name: "Retro",
+          img: "/images/tshirt-5.png",
+        },
+        {
+          name: "Vintage",
+          img: "/images/hero-tshirt.png",
+        },
+      ].map((vibe) => (
+        <button
+          key={vibe.name}
+          onClick={() => {
+            setActiveCategory(
+              vibe.name === "Vintage"
+                ? "Graphic"
+                : vibe.name
+            );
+
+            document
+              .getElementById("shop")
+              ?.scrollIntoView({
+                behavior: "smooth",
+              });
+          }}
+          className="group relative aspect-[3/4] rounded-2xl overflow-hidden"
+        >
+          <img
+            src={vibe.img}
+            className="w-full h-full object-cover transition duration-500 group-hover:scale-105"
+          />
+
+          <div className="absolute inset-0 bg-black/20" />
+
+          <div className="absolute bottom-8 left-8">
+            <h3 className="text-white text-3xl font-playfair">
+              {vibe.name}
+            </h3>
+
+            <p className="text-white/80 text-sm mt-1">
+              Explore →
+            </p>
+          </div>
+        </button>
+      ))}
+
+    </div>
+  </div>
+</section>
       {/* ── Shop ── */}
       <section id="shop" className="max-w-6xl mx-auto px-6 py-24">
         {/* Header */}
