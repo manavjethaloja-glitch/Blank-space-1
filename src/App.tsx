@@ -580,6 +580,12 @@ if (hash === "#adminsecret123") {
                 <span className="absolute top-3 left-3 text-[10px] tracking-[0.15em] uppercase bg-[#F8F6F2] text-[#1a1a1a] px-2.5 py-1 rounded-full">
                   {product.tag}
                 </span>
+                <button
+  onClick={() => showToast(`${product.name} saved to wishlist`)}
+  className="absolute top-3 right-3 w-9 h-9 rounded-full bg-[#F8F6F2] text-[#1a1a1a] flex items-center justify-center text-lg hover:scale-110 transition"
+>
+  ♡
+</button>
                 {/* Overlay */}
                 <div className="product-overlay absolute inset-0 bg-[#1a1a1a]/5 opacity-0 transition-opacity duration-300 flex flex-col items-center justify-end pb-5 gap-3 px-4">
                   {/* Size row */}
