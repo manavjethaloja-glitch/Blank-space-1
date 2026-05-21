@@ -136,6 +136,15 @@ const IconArrow = () => (
 
 // ─── App ──────────────────────────────────────────────────────────────────────
 export default function App() {
+ const [loadingScreen, setLoadingScreen] = useState(true);
+
+useEffect(() => {
+  const timer = setTimeout(() => {
+    setLoadingScreen(false);
+  }, 1500);
+
+  return () => clearTimeout(timer);
+}, []);
   const path = window.location.pathname;
 const hash = window.location.hash;
   const [page, setPage] = useState<"home" | "checkout" | "admin" | "login" | "account">("home");
