@@ -267,6 +267,7 @@ if (hash === "#adminsecret123") {
     return (
       <CheckoutPage
         cart={cart}
+        user={user}
         onBack={() => setPage("home")}
         onOrderSuccess={() => setCart([])}
       />

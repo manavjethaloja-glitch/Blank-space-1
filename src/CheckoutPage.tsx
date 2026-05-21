@@ -172,10 +172,12 @@ function SuccessModal({ onClose }: { onClose: () => void }) {
 // ─── Main Checkout Page ───────────────────────────────────────────────────────
 export default function CheckoutPage({
   cart,
+  user,
   onBack,
   onOrderSuccess,
 }: {
   cart: CartItem[];
+  user?: any;
   onBack: () => void;
   onOrderSuccess: () => void;
 }) {
@@ -358,10 +360,9 @@ export default function CheckoutPage({
   createdAt: new Date(),
 });
 
-  const currentUser = auth.currentUser;
-  if (currentUser) {
+  if (auth.currentUser?.uid) {
     await addDoc(collection(db, "purchaseHistory"), {
-      userId: currentUser.uid,
+      userId: auth.currentUser.uid,
       orderId: orderRef.id,
       products: cart.map((item) => ({
         id: item.id,
@@ -371,8 +372,8 @@ export default function CheckoutPage({
         qty: item.qty,
         size: item.size,
       })),
-      total: total,
-      orderDate: new Date().toISOString(),
+      total: subtotal,
+      orderDate: new Date(),
       status: "Processing",
     });
   }
