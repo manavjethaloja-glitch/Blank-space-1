@@ -1,7 +1,7 @@
  import { useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { collection, addDoc } from "firebase/firestore";
-import { auth, db } from "./firebase";
+import { db, auth } from "./firebase";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 type CartItem = {
@@ -360,10 +360,10 @@ export default function CheckoutPage({
   createdAt: new Date(),
 });
 
-  if (auth.currentUser?.uid) {
+  if (auth.currentUser) {
     await addDoc(collection(db, "purchaseHistory"), {
       userId: auth.currentUser.uid,
-      orderId: orderRef.id,
+
       products: cart.map((item) => ({
         id: item.id,
         name: item.name,
@@ -372,9 +372,10 @@ export default function CheckoutPage({
         qty: item.qty,
         size: item.size,
       })),
-      total: subtotal,
-      orderDate: new Date(),
+
+      total: total,
       status: "Processing",
+      createdAt: new Date(),
     });
   }
 
