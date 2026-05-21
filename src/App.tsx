@@ -575,6 +575,109 @@ if (hash === "#adminsecret123") {
     </a>
   </div>
 </section>
+{/* ── Trust Strip ── */}
+<section className="border-y-4 border-[#1a1a1a] bg-[#F8F6F2]">
+  <div className="max-w-6xl mx-auto px-6 py-6">
+    <p className="text-sm md:text-base tracking-wide">
+      <span className="text-green-600 font-bold">● Quality Vetted:</span>{" "}
+      Every Blank Space piece is checked for fabric, print, stitching, and fit before shipping.
+    </p>
+
+    <div className="mt-6 border-t border-dashed border-[#b8b3aa] pt-4 flex justify-between text-[10px] tracking-[0.25em] uppercase text-[#8a867f]">
+      <span>Secure Checkout</span>
+      <span>UPI · COD Soon · Cards Soon</span>
+    </div>
+  </div>
+</section>
+
+{/* ── Verification Journey ── */}
+<section className="bg-[#F8F6F2] px-6 py-10">
+  <div className="max-w-6xl mx-auto border-4 border-[#1a1a1a] p-8 md:p-12 bg-[#fffdf8]">
+    <div className="mb-10">
+      <p className="text-xs tracking-[0.3em] uppercase text-[#8a867f] mb-3">
+        Internal Quality Protocol V1.0
+      </p>
+      <h2 className="font-playfair text-4xl md:text-5xl font-semibold">
+        Verification Journey
+      </h2>
+    </div>
+
+    <div className="space-y-8">
+      {[
+        {
+          step: "01",
+          title: "Identity Scan",
+          text: "Every order is linked with verified customer details before processing.",
+        },
+        {
+          step: "02",
+          title: "Curation",
+          text: "Each item is selected to match the Blank Space archive aesthetic.",
+        },
+        {
+          step: "03",
+          title: "Grading",
+          text: "Fabric, print quality, wash, and finishing are checked before dispatch.",
+        },
+        {
+          step: "04",
+          title: "Security",
+          text: "UPI payment screenshots are manually verified before order approval.",
+        },
+      ].map((item) => (
+        <div key={item.step} className="flex gap-5 items-start">
+          <div className="w-14 h-14 rounded-full bg-green-500 border-4 border-[#1a1a1a] flex items-center justify-center font-bold text-sm">
+            {item.step}
+          </div>
+
+          <div>
+            <h3 className="text-xl font-bold tracking-widest uppercase">
+              {item.title}
+            </h3>
+            <p className="text-sm text-[#6b6864] mt-2">
+              {item.text}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div className="border-t border-dashed border-[#1a1a1a] mt-10 pt-5 flex justify-between text-[10px] tracking-[0.25em] uppercase text-green-600 font-bold">
+      <span>Verified</span>
+      <span>Identity & Quality Checked</span>
+    </div>
+  </div>
+</section>
+
+{/* ── Important Notice ── */}
+<section className="bg-[#F8F6F2] px-6 pb-10">
+  <div className="max-w-6xl mx-auto border-4 border-[#1a1a1a] bg-[#fff1f1] p-6 md:p-8">
+    <h2 className="text-2xl font-bold tracking-widest uppercase text-red-600 mb-5">
+      ⚠ Important
+    </h2>
+
+    <ol className="list-decimal list-inside space-y-2 text-sm md:text-base text-[#3a3835] font-medium">
+      <li>All purchases are final after payment verification.</li>
+      <li>Please upload a clear payment screenshot for faster approval.</li>
+      <li>Record an unboxing video in case of defects or package issues.</li>
+    </ol>
+  </div>
+</section>
+
+{/* ── Sold By Blank Space ── */}
+<section className="bg-[#F8F6F2] px-6 pb-16">
+  <div className="max-w-6xl mx-auto border-2 border-yellow-600 bg-[#fff9e8] p-6 md:p-8">
+    <h2 className="text-2xl font-bold tracking-widest uppercase text-[#7a3d12] mb-4">
+      Sold By Blank Space:
+    </h2>
+
+    <p className="text-sm md:text-base text-[#6b3b20] leading-relaxed">
+      This item is sold and shipped by Blank Space. Every order is packed after manual payment verification.
+      By purchasing, you agree to our store policies and delivery terms.
+    </p>
+  </div>
+</section>
+
 {/* ── Shop By Vibe ── */}
 <section className="border-t border-[#e0ddd8]">
   <div className="max-w-6xl mx-auto px-6 py-20">

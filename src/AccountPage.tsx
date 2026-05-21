@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { auth, db } from "./firebase";
-import { collection, doc, getDoc, getDocs, orderBy, query, setDoc, where } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 
 type PurchaseItem = {
@@ -12,22 +12,11 @@ type PurchaseItem = {
   size: string;
 };
 
-type PurchaseOrder = {
-  id: string;
-  orderId: string;
-  products: PurchaseItem[];
-  total: number;
-  orderDate: string;
-  status: string;
-};
-
 const INR = (price: number) => `₹${Math.round(price * 85)}`;
 
 export default function AccountPage({ onBuyAgain }: { onBuyAgain?: (items: PurchaseItem[]) => void; }) {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [historyLoading, setHistoryLoading] = useState(true);
-  const [purchases, setPurchases] = useState<any[]>([]);
   const [activeTab, setActiveTab] = useState("MY DETAILS");
 
   // Form states for profile editing
@@ -65,22 +54,6 @@ export default function AccountPage({ onBuyAgain }: { onBuyAgain?: (items: Purch
     return () => unsubscribe();
   }, []);
 
-  useEffect(() => {
-    const loadOrders = async () => {
-      const q = query(
-        collection(db, "purchaseHistory"),
-        where("userId", "==", auth.currentUser?.uid)
-      );
-
-      const snap = await getDocs(q);
-      setPurchases(
-        snap.docs.map((doc) => doc.data())
-      );
-    };
-
-    loadOrders();
-  }, []);
-
   const handleUpdateProfile = async () => {
   if (!user) return;
 
@@ -107,24 +80,6 @@ export default function AccountPage({ onBuyAgain }: { onBuyAgain?: (items: Purch
     signOut(auth).then(() => {
       alert("SIGNED OUT SUCCESSFULLY");
     });
-  };
-
-  const handleViewOrder = (order: PurchaseOrder) => {
-    const details = order.products
-      .map((product) => `${product.qty} × ${product.name} (${product.size}) — $${(
-        product.price * product.qty
-      ).toFixed(2)}`)
-      .join("\n");
-
-    alert(`Order ${order.orderId}\nStatus: ${order.status}\nDate: ${new Date(
-      order.orderDate,
-    ).toLocaleDateString()}\n\n${details}\n\nTotal: $${order.total.toFixed(2)}`);
-  };
-
-  const handleBuyAgain = (products: PurchaseItem[]) => {
-    if (!onBuyAgain) return;
-    onBuyAgain(products);
-    alert("Order items added back to your bag.");
   };
 
   if (loading) {
@@ -180,7 +135,6 @@ export default function AccountPage({ onBuyAgain }: { onBuyAgain?: (items: Purch
         {/* COLUMN 1: LEFT NAVIGATION INDEX */}
         <nav className="col-span-1 md:col-span-3 space-y-3 pt-2">
           {[
-            "PURCHASES",
             "RETURNS",
             "FAVOURITES",
             "MY DETAILS",
@@ -278,51 +232,6 @@ export default function AccountPage({ onBuyAgain }: { onBuyAgain?: (items: Purch
                   SIGN OUT
                 </button>
               </div>
-            </div>
-          ) : activeTab === "PURCHASES" ? (
-            <div className="space-y-8">
-              <div className="space-y-3">
-                <h3 className="text-[10px] tracking-[0.35em] uppercase text-[#6b6864]">Purchase History</h3>
-                <p className="text-xs text-[#6b6864] leading-relaxed">
-                  Past orders stored in your account. Reorder favorite looks or review any recent purchase.
-                </p>
-              </div>
-
-              {historyLoading ? (
-                <div className="rounded-3xl border border-[#e0ddd8] bg-[#F8F6F2] p-8 text-center text-sm text-[#6b6864]">
-                  Loading purchase history...
-                </div>
-              ) : purchases.length === 0 ? (
-                <p>No purchases yet.</p>
-              ) : (
-                <div className="space-y-6">
-                  {purchases.map((order) => (
-                    <div key={order.orderDate} className="rounded-3xl border border-[#e0ddd8] bg-[#F8F6F2] p-6 shadow-[0_18px_50px_rgba(26,26,26,0.06)]">
-                      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                        <div className="flex items-center gap-4">
-                          <img
-                            src={order.products[0].image}
-                            className="w-24 h-24 rounded-3xl object-cover"
-                          />
-                          <div>
-                            <p className="text-sm font-semibold text-[#1a1a1a]">{order.products[0].name}</p>
-                            <p className="text-[11px] text-[#6b6864] mt-1">{INR(order.total)}</p>
-                            <p className="text-[11px] text-[#6b6864] mt-1">{order.status}</p>
-                          </div>
-                        </div>
-                        <div className="flex flex-wrap gap-3">
-                          <button
-                            onClick={() => handleBuyAgain(order.products)}
-                            className="rounded-full bg-[#1a1a1a] px-4 py-2 text-[11px] uppercase tracking-[0.28em] text-[#F8F6F2] hover:bg-[#333] transition"
-                          >
-                            Buy Again
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
             </div>
           ) : (
             /* Fallback State placeholders for unbuilt options */

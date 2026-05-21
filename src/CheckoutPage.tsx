@@ -362,25 +362,6 @@ export default function CheckoutPage({
   createdAt: new Date(),
 });
 
-  if (auth.currentUser) {
-    await addDoc(collection(db, "purchaseHistory"), {
-      userId: auth.currentUser.uid,
-
-      products: cart.map((item) => ({
-        id: item.id,
-        name: item.name,
-        image: item.image,
-        price: item.price,
-        qty: item.qty,
-        size: item.size,
-      })),
-
-      total: total,
-      status: "Processing",
-      createdAt: new Date(),
-    });
-  }
-
   setShowSuccess(true);
 
 } catch (error) {
