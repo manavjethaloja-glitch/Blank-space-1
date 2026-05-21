@@ -331,7 +331,10 @@ if (hash === "#adminsecret123") {
               </div>
 
               <button
-                onClick={() => addToCart(selectedProduct)}
+                onClick={() => {
+                  addToCart(selectedProduct);
+                  setSelectedProduct(null);
+                }}
                 className="w-full bg-[#1a1a1a] text-[#F8F6F2] py-4 rounded-full text-sm tracking-widest uppercase"
               >
                 Add to Bag
