@@ -525,7 +525,11 @@ export default function CheckoutPage({
                           <div className="absolute top-3 right-3 w-4 h-4 border-t-2 border-r-2 border-[#1a1a1a] rounded-tr-sm" />
                           <div className="absolute bottom-3 left-3 w-4 h-4 border-b-2 border-l-2 border-[#1a1a1a] rounded-bl-sm" />
                           <div className="absolute bottom-3 right-3 w-4 h-4 border-b-2 border-r-2 border-[#1a1a1a] rounded-br-sm" />
-                          <img src="/Blank-space/images/qr-placeholder.jpg" alt="UPI QR Code" className="w-full aspect-square object-contain" />
+                          <img
+                            src="/images/qr-placeholder.jpg"
+                            alt="UPI QR Code"
+                            className="w-full aspect-square object-contain"
+                          />
                         </div>
                         <p className="text-center text-[10px] tracking-widest uppercase text-[#a8a5a0] mt-3">Scan to Pay via UPI</p>
                       </div>
