@@ -150,6 +150,8 @@ const hash = window.location.hash;
   const [page, setPage] = useState<"home" | "checkout" | "admin" | "login" | "account">("home");
   const [cartOpen, setCartOpen] = useState(false);
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [wishlistOpen, setWishlistOpen] = useState(false);
+  const [wishlist, setWishlist] = useState<typeof products>([]);
   const [activeCategory, setActiveCategory] = useState("All");
   const [selectedSizes, setSelectedSizes] = useState<Record<number, string>>({});
   const [toast, setToast] = useState<string | null>(null);
@@ -188,6 +190,20 @@ useEffect(() => {
       return [...prev, { id: product.id, name: product.name, price: product.price, image: product.image, size, qty: 1 }];
     });
     showToast(`${product.name} added to bag`);
+  };
+
+  const addToWishlist = (product: typeof products[0]) => {
+    setWishlist((prev) => {
+      const exists = prev.find((item) => item.id === product.id);
+      if (exists) return prev;
+      return [...prev, product];
+    });
+
+    showToast(`${product.name} added to wishlist`);
+  };
+
+  const removeFromWishlist = (id: number) => {
+    setWishlist((prev) => prev.filter((item) => item.id !== id));
   };
 
   const updateQty = (id: number, size: string, delta: number) => {
@@ -258,6 +274,68 @@ if (hash === "#adminsecret123") {
       {cartOpen && (
         <div className="fixed inset-0 bg-black/20 z-[90] backdrop-blur-[2px]" onClick={() => setCartOpen(false)} />
       )}
+
+      {/* ── Wishlist Overlay ── */}
+      {wishlistOpen && (
+        <div
+          className="fixed inset-0 bg-black/20 z-[90] backdrop-blur-[2px]"
+          onClick={() => setWishlistOpen(false)}
+        />
+      )}
+
+      <div className={`fixed top-0 right-0 h-full w-full max-w-sm z-[110] bg-[#F8F6F2] border-l border-[#e0ddd8] flex flex-col transition-transform duration-300 ${
+        wishlistOpen ? "translate-x-0" : "translate-x-full"
+      }`}>
+        <div className="flex items-center justify-between px-6 py-5 border-b border-[#e0ddd8]">
+          <span className="text-sm font-medium tracking-widest uppercase">
+            Wishlist ({wishlist.length})
+          </span>
+          <button onClick={() => setWishlistOpen(false)}>
+            <IconX />
+          </button>
+        </div>
+
+        {wishlist.length === 0 ? (
+          <div className="flex-1 flex items-center justify-center text-sm text-[#6b6864]">
+            Your wishlist is empty.
+          </div>
+        ) : (
+          <div className="flex-1 overflow-y-auto px-6 py-4 space-y-5">
+            {wishlist.map((item) => (
+              <div key={item.id} className="flex gap-4">
+                <div className="w-20 h-20 rounded-lg overflow-hidden bg-[#edeae4]">
+                  <img src={item.image} className="w-full h-full object-cover" />
+                </div>
+
+                <div className="flex-1">
+                  <p className="text-sm font-medium">{item.name}</p>
+                  <p className="text-xs text-[#6b6864]">{item.category}</p>
+                  <p className="text-sm font-medium mt-1">${item.price}</p>
+
+                  <div className="flex gap-3 mt-3">
+                    <button
+                      onClick={() => {
+                        addToCart(item);
+                        removeFromWishlist(item.id);
+                      }}
+                      className="text-xs bg-[#1a1a1a] text-[#F8F6F2] px-4 py-2 rounded-full"
+                    >
+                      Add to Bag
+                    </button>
+
+                    <button
+                      onClick={() => removeFromWishlist(item.id)}
+                      className="text-xs underline text-[#6b6864]"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
 
       {/* ── Cart Drawer ── */}
       <div className={`cart-drawer fixed top-0 right-0 h-full w-full max-w-sm z-[100] bg-[#F8F6F2] border-l border-[#e0ddd8] flex flex-col ${cartOpen ? "open" : "closed"}`}>
@@ -343,14 +421,25 @@ if (hash === "#adminsecret123") {
   </button>
 )}
             <button
-  onClick={() => {
-    window.location.hash = "/account";
-    window.location.reload();
-  }}
-  className="text-sm border border-[#d8d5d0] px-4 py-2 rounded-full"
->
-  My Account
-</button>
+              onClick={() => {
+                window.location.hash = "/account";
+                window.location.reload();
+              }}
+              className="text-sm border border-[#d8d5d0] px-4 py-2 rounded-full"
+            >
+              My Account
+            </button>
+            <button
+              onClick={() => setWishlistOpen(true)}
+              className="relative text-sm border border-[#d8d5d0] px-4 py-2 rounded-full"
+            >
+              Wishlist
+              {wishlist.length > 0 && (
+                <span className="absolute -top-2 -right-2 w-4 h-4 bg-[#1a1a1a] text-[#F8F6F2] text-[9px] rounded-full flex items-center justify-center">
+                  {wishlist.length}
+                </span>
+              )}
+            </button>
             <button onClick={() => setCartOpen(true)} className="relative hover:opacity-60 transition-opacity">
     <IconCart />
               {totalItems > 0 && (
@@ -581,11 +670,15 @@ if (hash === "#adminsecret123") {
                   {product.tag}
                 </span>
                 <button
-  onClick={() => showToast(`${product.name} saved to wishlist`)}
-  className="absolute top-3 right-3 w-9 h-9 rounded-full bg-[#F8F6F2] text-[#1a1a1a] flex items-center justify-center text-lg hover:scale-110 transition"
->
-  ♡
-</button>
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    addToWishlist(product);
+                  }}
+                  className="absolute top-3 right-3 z-20 w-9 h-9 rounded-full bg-[#F8F6F2] text-[#1a1a1a] flex items-center justify-center text-lg hover:scale-110 transition"
+                >
+                  ♡
+                </button>
                 {/* Overlay */}
                 <div className="product-overlay absolute inset-0 bg-[#1a1a1a]/5 opacity-0 transition-opacity duration-300 flex flex-col items-center justify-end pb-5 gap-3 px-4">
                   {/* Size row */}
