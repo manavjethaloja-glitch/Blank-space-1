@@ -147,6 +147,7 @@ useEffect(() => {
 }, []);
   const hash = window.location.hash;
   const [page, setPage] = useState<"home" | "checkout" | "admin" | "login" | "account">("home");
+  const [selectedProduct, setSelectedProduct] = useState<typeof products[0] | null>(null);
   const [cartOpen, setCartOpen] = useState(false);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [wishlistOpen, setWishlistOpen] = useState(false);
@@ -265,6 +266,90 @@ if (hash === "#adminsecret123") {
     />
   );
 }
+  if (selectedProduct) {
+    return (
+      <div className="min-h-screen bg-[#F8F6F2] text-[#1a1a1a]">
+        <div className="max-w-6xl mx-auto px-6 py-10">
+          <button
+            onClick={() => setSelectedProduct(null)}
+            className="mb-8 text-sm underline underline-offset-4"
+          >
+            ← Back to shop
+          </button>
+
+          <div className="grid md:grid-cols-2 gap-12">
+            <div className="rounded-2xl overflow-hidden bg-[#edeae4]">
+              <img
+                src={selectedProduct.image}
+                alt={selectedProduct.name}
+                className="w-full h-full object-cover"
+              />
+            </div>
+
+            <div className="space-y-6">
+              <p className="text-xs tracking-[0.2em] uppercase text-[#6b6864]">
+                {selectedProduct.category}
+              </p>
+
+              <h1 className="font-playfair text-5xl">
+                {selectedProduct.name}
+              </h1>
+
+              <p className="text-2xl font-medium">
+                ₹{Math.round(selectedProduct.price * 85)}
+              </p>
+
+              <p className="text-[#6b6864] leading-relaxed">
+                {selectedProduct.description}
+              </p>
+
+              <div>
+                <p className="text-xs tracking-widest uppercase mb-3">
+                  Select Size
+                </p>
+
+                <div className="flex gap-2">
+                  {selectedProduct.sizes.map((s) => (
+                    <button
+                      key={s}
+                      onClick={() =>
+                        setSelectedSizes((prev) => ({
+                          ...prev,
+                          [selectedProduct.id]: s,
+                        }))
+                      }
+                      className={`w-11 h-11 rounded-full border text-xs ${
+                        selectedSizes[selectedProduct.id] === s
+                          ? "bg-[#1a1a1a] text-[#F8F6F2]"
+                          : "border-[#d8d5d0]"
+                      }`}
+                    >
+                      {s}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <button
+                onClick={() => addToCart(selectedProduct)}
+                className="w-full bg-[#1a1a1a] text-[#F8F6F2] py-4 rounded-full text-sm tracking-widest uppercase"
+              >
+                Add to Bag
+              </button>
+
+              <div className="border-t border-[#e0ddd8] pt-6 space-y-3 text-sm text-[#6b6864]">
+                <p>✓ Premium cotton fabric</p>
+                <p>✓ Limited drop item</p>
+                <p>✓ Ships in 3–5 business days</p>
+                <p>✓ Manual quality check before shipping</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (page === "checkout") {
     return (
       <CheckoutPage
@@ -665,14 +750,17 @@ if (hash === "#adminsecret123") {
 </section>
 
 {/* ── Sold By Blank Space ── */}
+{/* ── Sold By Blank Space / Curator Model ── */}
 <section className="bg-[#F8F6F2] px-6 pb-16">
   <div className="max-w-6xl mx-auto border-2 border-yellow-600 bg-[#fff9e8] p-6 md:p-8">
     <h2 className="text-2xl font-bold tracking-widest uppercase text-[#7a3d12] mb-4">
-      Sold By Blank Space:
+      Sold Through Blank Space:
     </h2>
 
     <p className="text-sm md:text-base text-[#6b3b20] leading-relaxed">
-      This item is sold and shipped by Blank Space. Every order is packed after manual payment verification.
+      Some items on Blank Space may be shipped directly from independent suppliers or curators.
+      Blank Space manages the storefront, order confirmation, payment verification, and customer support.
+      Product availability, dispatch timelines, and final fulfillment may depend on the supplier.
       By purchasing, you agree to our store policies and delivery terms.
     </p>
   </div>
@@ -780,7 +868,10 @@ if (hash === "#adminsecret123") {
             return (
               <div key={product.id} className="product-card group">
                 {/* Image */}
-                <div className="relative aspect-[3/4] rounded-xl overflow-hidden bg-[#edeae4] mb-4">
+                <div
+                  onClick={() => setSelectedProduct(product)}
+                  className="relative aspect-[3/4] rounded-xl overflow-hidden bg-[#edeae4] mb-4 cursor-pointer"
+                >
                   <img
                     src={product.image}
                     alt={product.name}
