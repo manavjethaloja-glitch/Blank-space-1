@@ -5,8 +5,6 @@ import AccountPage from "./AccountPage";
 import AdminPanel from "./AdminPanel";
 import { useState, useEffect, useRef } from "react";
 import CheckoutPage from "./CheckoutPage";
-import { collection, addDoc } from "firebase/firestore";
-import { db } from "./firebase";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 const products =[
@@ -145,8 +143,7 @@ useEffect(() => {
 
   return () => clearTimeout(timer);
 }, []);
-  const path = window.location.pathname;
-const hash = window.location.hash;
+  const hash = window.location.hash;
   const [page, setPage] = useState<"home" | "checkout" | "admin" | "login" | "account">("home");
   const [cartOpen, setCartOpen] = useState(false);
   const [cart, setCart] = useState<CartItem[]>([]);
@@ -656,67 +653,79 @@ if (hash === "#adminsecret123") {
 
         {/* Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
-          {filtered.map((product) => (
-            <div key={product.id} className="product-card group">
-              {/* Image */}
-              <div className="relative aspect-[3/4] rounded-xl overflow-hidden bg-[#edeae4] mb-4">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="product-img w-full h-full object-cover"
-                />
-                {/* Tag */}
-                <span className="absolute top-3 left-3 text-[10px] tracking-[0.15em] uppercase bg-[#F8F6F2] text-[#1a1a1a] px-2.5 py-1 rounded-full">
-                  {product.tag}
-                </span>
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    addToWishlist(product);
-                  }}
-                  className="absolute top-3 right-3 z-20 w-9 h-9 rounded-full bg-[#F8F6F2] text-[#1a1a1a] flex items-center justify-center text-lg hover:scale-110 transition"
-                >
-                  ♡
-                </button>
-                {/* Overlay */}
-                <div className="product-overlay absolute inset-0 bg-[#1a1a1a]/5 opacity-0 transition-opacity duration-300 flex flex-col items-center justify-end pb-5 gap-3 px-4">
-                  {/* Size row */}
-                  <div className="flex gap-1.5 flex-wrap justify-center">
-                    {product.sizes.map((s) => (
-                      <button
-                        key={s}
-                        onClick={() => setSelectedSizes((prev) => ({ ...prev, [product.id]: s }))}
-                        className={`w-8 h-8 rounded-full text-[10px] border transition-all ${
-                          selectedSizes[product.id] === s
-                            ? "bg-[#1a1a1a] text-[#F8F6F2] border-[#1a1a1a]"
-                            : "bg-[#F8F6F2] text-[#1a1a1a] border-[#d8d5d0] hover:border-[#1a1a1a]"
-                        }`}
-                      >
-                        {s}
-                      </button>
-                    ))}
-                  </div>
+          {filtered.map((product) => {
+            const isInWishlist = wishlist.some((item) => item.id === product.id);
+            return (
+              <div key={product.id} className="product-card group">
+                {/* Image */}
+                <div className="relative aspect-[3/4] rounded-xl overflow-hidden bg-[#edeae4] mb-4">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="product-img w-full h-full object-cover"
+                  />
+                  {/* Tag */}
+                  <span className="absolute top-3 left-3 text-[10px] tracking-[0.15em] uppercase bg-[#F8F6F2] text-[#1a1a1a] px-2.5 py-1 rounded-full">
+                    {product.tag}
+                  </span>
                   <button
-                    onClick={() => addToCart(product)}
-                    className="w-full bg-[#1a1a1a] text-[#F8F6F2] py-2.5 rounded-full text-xs tracking-widest uppercase hover:bg-[#333] transition-colors"
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (isInWishlist) {
+                        removeFromWishlist(product.id);
+                      } else {
+                        addToWishlist(product);
+                      }
+                    }}
+                    className={
+                      isInWishlist
+                        ? "absolute top-3 right-3 z-20 w-9 h-9 rounded-full flex items-center justify-center text-lg hover:scale-110 transition bg-[#1a1a1a] text-[#F8F6F2]"
+                        : "absolute top-3 right-3 z-20 w-9 h-9 rounded-full flex items-center justify-center text-lg hover:scale-110 transition bg-[#F8F6F2] text-[#1a1a1a]"
+                    }
                   >
-                    Add to Bag
+                    {isInWishlist ? "♥" : "♡"}
                   </button>
-                </div>
-              </div>
 
-              {/* Info */}
-              <div>
-                <h3 className="text-sm font-medium">{product.name}</h3>
-                <p className="text-xs text-[#6b6864] mt-0.5">{product.description}</p>
-                <div className="flex items-center gap-2 mt-2">
-                  <span className="text-sm font-medium">${product.price}</span>
-                  <span className="text-xs text-[#a8a5a0] line-through">${product.originalPrice}</span>
+                  {/* Overlay */}
+                  <div className="product-overlay absolute inset-0 bg-[#1a1a1a]/5 opacity-0 transition-opacity duration-300 flex flex-col items-center justify-end pb-5 gap-3 px-4">
+                    {/* Size row */}
+                    <div className="flex gap-1.5 flex-wrap justify-center">
+                      {product.sizes.map((s) => (
+                        <button
+                          key={s}
+                          onClick={() => setSelectedSizes((prev) => ({ ...prev, [product.id]: s }))}
+                          className={`w-8 h-8 rounded-full text-[10px] border transition-all ${
+                            selectedSizes[product.id] === s
+                              ? "bg-[#1a1a1a] text-[#F8F6F2] border-[#1a1a1a]"
+                              : "bg-[#F8F6F2] text-[#1a1a1a] border-[#d8d5d0] hover:border-[#1a1a1a]"
+                          }`}
+                        >
+                          {s}
+                        </button>
+                      ))}
+                    </div>
+                    <button
+                      onClick={() => addToCart(product)}
+                      className="w-full bg-[#1a1a1a] text-[#F8F6F2] py-2.5 rounded-full text-xs tracking-widest uppercase hover:bg-[#333] transition-colors"
+                    >
+                      Add to Bag
+                    </button>
+                  </div>
+                </div>
+
+                {/* Info */}
+                <div>
+                  <h3 className="text-sm font-medium">{product.name}</h3>
+                  <p className="text-xs text-[#6b6864] mt-0.5">{product.description}</p>
+                  <div className="flex items-center gap-2 mt-2">
+                    <span className="text-sm font-medium">${product.price}</span>
+                    <span className="text-xs text-[#a8a5a0] line-through">${product.originalPrice}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 
