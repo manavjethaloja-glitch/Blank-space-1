@@ -205,6 +205,17 @@ if (hash === "#/login") {
 if (hash === "#/account") {
   return <AccountPage />;
 }
+
+if (hash === "#adminsecret123") {
+  return (
+    <AdminPanel
+      onBack={() => {
+        window.location.hash = "";
+        window.location.reload();
+      }}
+    />
+  );
+}
   if (page === "checkout") {
     return (
       <CheckoutPage
@@ -215,25 +226,6 @@ if (hash === "#/account") {
     );
   }
 
-  if (hash === "#adminsecret123") {
-
-  return (
-
-    <AdminPanel
-
-      onBack={() => {
-
-        window.location.hash = "";
-
-        window.location.reload();
-
-      }}
-
-    />
-
-  );
-
-}
   return (
     <div className="min-h-screen" style={{ backgroundColor: "#F8F6F2", color: "#1a1a1a" }}>
 
