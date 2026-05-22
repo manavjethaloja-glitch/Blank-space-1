@@ -1,3 +1,9 @@
+import Home from "./pages/Home";
+import Shop from "./pages/Shop";
+import Archive from "./pages/Archive";
+import ProductDetail from "./pages/ProductDetail";
+import About from "./pages/About";
+import Wishlist from "./pages/Wishlist";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
 import LoginPage from "./LoginPage";
