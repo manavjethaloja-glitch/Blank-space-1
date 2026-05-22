@@ -152,7 +152,9 @@ useEffect(() => {
   return () => clearTimeout(timer);
 }, []);
   const hash = window.location.hash;
-  const [page, setPage] = useState<"home" | "checkout" | "admin" | "login" | "account">("home");
+  const [page, setPage] = useState<
+  "home" | "shop" | "archive" | "about" | "wishlist" | "product" | "checkout" | "admin" | "login" | "account"
+>("home");
   const [selectedProduct, setSelectedProduct] = useState<typeof products[0] | null>(null);
   const [cartOpen, setCartOpen] = useState(false);
   const [cart, setCart] = useState<CartItem[]>([]);
