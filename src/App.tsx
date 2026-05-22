@@ -274,6 +274,16 @@ if (hash === "#adminsecret123") {
     />
   );
 }
+  if (page === "home") {
+  return (
+    <Home
+      onShop={() => setPage("shop")}
+      onArchive={() => setPage("archive")}
+      onWishlist={() => setWishlistOpen(true)}
+      onCart={() => setCartOpen(true)}
+    />
+  );
+}
   if (selectedProduct) {
     return (
       <div className="min-h-screen bg-[#F8F6F2] text-[#1a1a1a]">
