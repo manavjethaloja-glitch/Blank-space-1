@@ -4,7 +4,19 @@ import { PRODUCTS, TESTIMONIALS, INSTAGRAM_POSTS, ARCHIVE_COLLECTIONS } from '..
 import { motion, useScroll, useTransform, AnimatePresence } from 'motion/react';
 import { Sparkles, Heart, ArrowRight, ArrowLeft, Star, ChevronLeft, ChevronRight, CheckCircle2, Shield, Truck, RotateCcw } from 'lucide-react';
 
-export default function Home() {
+type HomeProps = {
+  onShop: () => void;
+  onArchive: () => void;
+  onCart: () => void;
+  onWishlist: () => void;
+};
+
+export default function Home({
+  onShop,
+  onArchive,
+  onCart,
+  onWishlist,
+}: HomeProps) {
   const navigateTo = (page: string) => {
     console.log("navigate:", page);
   };
