@@ -18,20 +18,22 @@ export default function Home({
   onWishlist,
 }: HomeProps) {
   const navigateTo = (page: string) => {
-    console.log("navigate:", page);
-  };
+  if (page === "shop") onShop();
+  if (page === "archive") onArchive();
+  if (page === "wishlist") onWishlist();
+};
 
   const selectProduct = (id: string) => {
     console.log("selected product:", id);
   };
 
   const addToCart = (product: any, size?: string) => {
-    console.log("add to cart:", product, size);
-  };
+  onCart();
+};
 
   const toggleWishlist = (id: string) => {
-    console.log("wishlist:", id);
-  };
+  onWishlist();
+};
 
   const isInWishlist = (id: string) => false;
 
