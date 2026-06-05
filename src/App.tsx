@@ -274,7 +274,14 @@ if (hash === "#adminsecret123") {
   );
 }
   if (page === "home") {
-  return <Home />;
+  return (
+    <Home
+      onShop={() => setPage("shop")}
+      onArchive={() => setPage("archive")}
+      onCart={() => setCartOpen(true)}
+      onWishlist={() => setWishlistOpen(true)}
+    />
+  );
 }
   if (selectedProduct) {
     return (
