@@ -273,7 +273,7 @@ if (hash === "#adminsecret123") {
     />
   );
 }
-  ifif (page === "home") {
+  if (page === "home") {
   return <Home />;
 }
   if (selectedProduct) {
