@@ -1,20 +1,35 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { useStore } from '../hooks/useStore';
 import { Button } from '../components/Navbar';
 import { PRODUCTS, TESTIMONIALS, INSTAGRAM_POSTS, ARCHIVE_COLLECTIONS } from '../data';
 import { motion, useScroll, useTransform, AnimatePresence } from 'motion/react';
 import { Sparkles, Heart, ArrowRight, ArrowLeft, Star, ChevronLeft, ChevronRight, CheckCircle2, Shield, Truck, RotateCcw } from 'lucide-react';
 
 export default function Home() {
-  const {
-    navigateTo,
-    selectProduct,
-    addToCart,
-    toggleWishlist,
-    isInWishlist,
-    setSelectedVibe,
-    setSelectedCategory
-  } = useStore();
+  const navigateTo = (page: string) => {
+    console.log("navigate:", page);
+  };
+
+  const selectProduct = (id: string) => {
+    console.log("selected product:", id);
+  };
+
+  const addToCart = (product: any, size?: string) => {
+    console.log("add to cart:", product, size);
+  };
+
+  const toggleWishlist = (id: string) => {
+    console.log("wishlist:", id);
+  };
+
+  const isInWishlist = (id: string) => false;
+
+  const setSelectedVibe = (vibe: string) => {
+    console.log("vibe:", vibe);
+  };
+
+  const setSelectedCategory = (category: string) => {
+    console.log("category:", category);
+  };
 
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
   const [newsletterEmail, setNewsletterEmail] = useState('');
