@@ -273,12 +273,8 @@ if (hash === "#adminsecret123") {
     />
   );
 }
-  if (page === "home") {
-  return (
-    <div className="min-h-screen bg-black text-white flex items-center justify-center text-4xl">
-      APP WORKING
-    </div>
-  );
+  ifif (page === "home") {
+  return <Home />;
 }
   if (selectedProduct) {
     return (
