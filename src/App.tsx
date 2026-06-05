@@ -2,7 +2,6 @@ import Home from "./pages/Home";
 import Shop from "./pages/Shop";
 import Archive from "./pages/Archive";
 import ProductDetail from "./pages/ProductDetail";
-import About from "./pages/About";
 import Wishlist from "./pages/Wishlist";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
@@ -275,14 +274,7 @@ if (hash === "#adminsecret123") {
   );
 }
   if (page === "home") {
-  return (
-    <Home
-      onShop={() => setPage("shop")}
-      onArchive={() => setPage("archive")}
-      onWishlist={() => setWishlistOpen(true)}
-      onCart={() => setCartOpen(true)}
-    />
-  );
+  return <Home />;
 }
   if (selectedProduct) {
     return (
