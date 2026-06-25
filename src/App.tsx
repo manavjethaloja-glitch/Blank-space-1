@@ -61,10 +61,10 @@ const products =[
   },
   {
     id: 5,
-    name: "Acid Wash Tee",
+    name: "Adidas green soccer jersey",
     price: 33.99,
     originalPrice: 47.99,
-    image: "/images/tshirt-5.png",
+    image: "/images/Adidas green soccer jersey.jpeg",
     tag: "New",
     category: "Retro",
     sizes: ["S", "M", "L", "XL"],
