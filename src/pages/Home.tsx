@@ -2,6 +2,9 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Button } from '../components/Navbar';
 import { PRODUCTS, TESTIMONIALS, INSTAGRAM_POSTS, ARCHIVE_COLLECTIONS } from '../data';
 import { motion, useScroll, useTransform, AnimatePresence } from 'motion/react';
+import SpaceAI from '../components/SpaceAI';
+import BottomNav from '../components/BottomNav';
+import DropCountdown from '../components/DropCountdown';
 import { Sparkles, Heart, ArrowRight, ArrowLeft, Star, ChevronLeft, ChevronRight, CheckCircle2, Shield, Truck, RotateCcw } from 'lucide-react';
 
 type HomeProps = {
@@ -122,6 +125,15 @@ export default function Home({
             >
               <span>OWN THE DROP</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
+            </Button>
+            <Button
+              id="hero-cta-create-style"
+              variant="outline"
+              size="lg"
+              onClick={() => { window.location.hash = '#/style-dna'; window.location.reload(); }}
+              className="border-brand-border"
+            >
+              Create Your Style
             </Button>
             <Button
               id="hero-cta-view-archive"
@@ -293,6 +305,9 @@ export default function Home({
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
+          <div className="hidden md:flex items-center">
+            <DropCountdown target="2026-12-01T12:00:00Z" />
+          </div>
         </div>
 
         {/* Horizontal Card Slider */}
@@ -453,6 +468,9 @@ export default function Home({
           ))}
         </div>
       </section>
+
+      <SpaceAI />
+      <BottomNav />
 
       {/* 08 — FEATURED PRODUCT SHOWCASE */}
       <section id="featured-showcase-section" className="py-24 bg-brand-card/25 border-b border-brand-border bg-grain">

@@ -8,6 +8,8 @@ import { auth } from "./firebase";
 import LoginPage from "./LoginPage";
 import AccountPage from "./AccountPage";
 import AdminPanel from "./AdminPanel";
+import StyleDNA from "./pages/StyleDNA";
+import Community from "./pages/Community";
 import { useState, useEffect, useRef } from "react";
 import CheckoutPage from "./CheckoutPage";
 
@@ -153,7 +155,7 @@ useEffect(() => {
   const hash = window.location.hash;
   const [page, setPage] = useState<
   "home" | "shop" | "archive" | "about" | "wishlist" | "product" | "checkout" | "admin" | "login" | "account"
->("home");
+>("shop");
   const [selectedProduct, setSelectedProduct] = useState<typeof products[0] | null>(null);
   const [cartOpen, setCartOpen] = useState(false);
   const [cart, setCart] = useState<CartItem[]>([]);
@@ -257,6 +259,14 @@ if (loadingScreen) {
 }
 if (hash === "#/login") {
   return <LoginPage />;
+}
+
+if (hash === "#/style-dna") {
+  return <StyleDNA />;
+}
+
+if (hash === "#/community") {
+  return <Community />;
 }
 
 if (hash === "#/account") {
